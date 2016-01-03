@@ -15,13 +15,13 @@ dimension bounded program generator etc.
    --contrib:with_ppl=yes --contrib:auto_install_ppl=yes`)
 2. SMT solver Yices 2.3.1 (`ciao get http://github.com/jfmc/ciao_yices`)
 
-## Input and output:
+## Input and output
 Input: a set of Horn clauses. They are written using Prolog notation:
 e.g. `h(X):- C, b1(X1),...,bn(Xn).` 
 
 Output: A solution if the clauses are solvable using the tool and unknown otherwise.
 
-## How to run:
+## How to run
 1. `cd src`
 2. `ciaoc linearsolve`
 3. `src/linearsolve` \<`File containing a set of Horn clauses`\>
