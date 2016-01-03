@@ -22,6 +22,5 @@ e.g. `h(X):- C, b1(X1),...,bn(Xn).`
 Output: A solution if the clauses are solvable using the tool and unknown otherwise.
 
 ## How to run
-1. `cd src`
-2. `ciaoc linearsolve`
-3. `src/linearsolve` \<`File containing a set of Horn clauses`\>
+1. `ciaoc src/linearsolve`
+2. `src/linearsolve` \<`File containing a set of Horn clauses`\>
