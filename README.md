@@ -24,4 +24,4 @@ Output: A solution if the clauses are solvable using the tool and unknown otherw
 ## How to run:
 1. `cd src`
 2. `ciaoc linearsolve`
-3. `src/linearsolve` \<File containing a set of Horn clauses\>
+3. `src/linearsolve` \<`File containing a set of Horn clauses`\>
