@@ -4,7 +4,7 @@ linear Horn clause solver.
 
 ## Programming 
 LHornSolver is written in Ciao and is interfaced with Yices SMT solver
-and Parma polyhedra libray for handling constraints. LHornSolver uses
+and Parma polyhedra library for handling constraints. LHornSolver uses
 several reusable components such as linear Horn clause solver,
 dimension bounded program generator etc.
 
