@@ -3,7 +3,7 @@ Takes as input a set of Horn clauses and invariants generated for a K-dim progra
 which contains disjunctively  invariants  as assertions together with the initial set of Clauses
 */
 
-:-module(checkInv, _).
+:-module(checkInv, [main/1, checkInv/2]).
 
 :-dynamic(invariant/1).
 :-dynamic(disjInvariant/1).
@@ -11,13 +11,12 @@ which contains disjunctively  invariants  as assertions together with the initia
 :- use_module(linearize).
 :- use_module(input_ppl_clausenum).
 :- use_module(yices2_sat).
-:- use_module(ciao_yices_2).
+:- use_module(ciao_yices(ciao_yices_2)).
 :- use_module(canonical).
 
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
 :- use_module(library(strings)).
-
 
 
 go2:-
@@ -27,20 +26,34 @@ go2:-
 
 %ArgV = ['-prg', Input, '-inv', InvariantFile]
 main(ArgV):-
-    cleanup,
-    setOptions(ArgV).
+	checkInv(ArgV, Safety),
+	( Safety = safe -> halt(0)
+	; halt(1)
+	).
 
-setOptions(ArgV) :-
+% Safety = safe | unknown
+checkInv(ArgV, Safety) :-
+	cleanup,
+	setOptions(ArgV, Safety).
+
+setOptions(ArgV, Safety) :-
 	get_options(ArgV,Options,_),
-	(member(programO(Input),Options), load_file(Input);
-			write(user_output,'No input file is given.'),nl(user_output)),
-    (member(inv(PFile),Options), readInvariants(PFile);
-                write(user_output,'No invariant file is given.'),nl(user_output)),
-    (member(qarmc(Output),Options), open(Output, append, S), printQarmcOutput(S), close(S);
-			true),
-    (member(smt(OutputSmt),Options), open(OutputSmt, write, S1), printSmtOutput(S1, Safety), write(Safety), close(S1);
-			printSmtOutput(user_output, Safety), write(Safety)).
-
+	( member(programO(Input),Options), load_file(Input)
+	; write(user_output,'No input file is given.'),nl(user_output)
+	),
+	( member(inv(PFile),Options), readInvariants(PFile)
+	; write(user_output,'No invariant file is given.'),nl(user_output)
+	),
+	( member(qarmc(Output),Options),
+	  open(Output, append, S), printQarmcOutput(S), close(S)
+	; true
+	),
+	( member(smt(OutputSmt),Options), 
+	  open(OutputSmt, write, S1),
+	  printSmtOutput(S1, Safety), write(Safety), close(S1)
+	;
+	  printSmtOutput(user_output, Safety), write(Safety)
+	).
 
 % get_options/3 provided by Michael Leuschel
 get_options([],[],[]).
@@ -214,17 +227,15 @@ printSmtOutput(S, Safety):-
         write(S, ' % The safe inductive invariants are '),
         nl(S),
         %writeInvs(S),
-        write(S, ' % for the program '), nl(S),
+        write(S, ' % for the program '), nl(S)
         %writeCls(S),
-        halt(0) % return 0 if it is an inductive invariant
     ;
         Safety=unknown,
         write(S, 'The following is not an inductive invariant '),
         nl(S),
         %writeInvs(S),
-        write(S, ' % for the program '), nl(S),
+        write(S, ' % for the program '), nl(S)
         %writeCls(S),
-        halt(1) % return 1 if it is not an inductive invariant
     ),
     yices_exit.
     %write_string(SmtFormula).

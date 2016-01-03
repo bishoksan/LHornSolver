@@ -1,5 +1,4 @@
-:- module(checkSafety,_).
-
+:- module(checkSafety, [checkSafety/2]).
 
 safe(PFile, K) :-
 	open(PFile,read,S),
@@ -8,7 +7,6 @@ safe(PFile, K) :-
 		close(S); 
 		close(S),
 		fail).
-
 	
 checkForFalse(_,end_of_file, _) :-
 	!.
@@ -22,14 +20,16 @@ checkForFalse(S,(H:-_), K) :-
 	read(S,C1),
 	checkForFalse(S,C1, K).
 	
-main([F, K]) :-
+checkSafety([F, K], Result) :-
 	%open('pec_benchmarks.txt',append,S),
-    S = user_output,
+	S = user_output,
 	write(S,F), 
-	(safe(F, K) ->
-		write(S,': PROGRAM IS SAFE'),nl(S), halt(0);
-		write(S,': PROGRAM MIGHT NOT BE SAFE'),nl(S), halt(1)),
-	close(S).
+	( safe(F, K) ->
+	    write(S,': PROGRAM IS SAFE'),nl(S), Result = safe
+	;
+	    write(S,': PROGRAM MIGHT NOT BE SAFE'),nl(S), Result = otherwise % unsafe or unknown
+	).
+	% close(S).
 	
 
 	
