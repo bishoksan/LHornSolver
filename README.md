@@ -30,6 +30,6 @@ Output: A solution if the clauses are solvable using the tool and unknown otherw
 2. `ciaoc_sdyn ../src/linearsolve`
 
 This creates a platform specific binary `linearsolve` at `dist/`
-directory, together with a collection of shared libraries for the
-dependencies. It can be used an installed Ciao distribution.
+directory, together with the collection of shared libraries for the
+dependencies.
 
