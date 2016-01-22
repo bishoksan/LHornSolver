@@ -24,3 +24,12 @@ Output: A solution if the clauses are solvable using the tool and unknown otherw
 ## How to run
 1. `ciaoc src/linearsolve`
 2. `src/linearsolve` \<`File containing a set of Horn clauses`\>
+
+## Generate a standalone binary distribution
+1. `mkdir dist; cd dist`
+2. `ciaoc_sdyn ../src/linearsolve`
+
+This creates a platform specific binary `linearsolve` at `dist/`
+directory, together with a collection of shared libraries for the
+dependencies. It can be used an installed Ciao distribution.
+
