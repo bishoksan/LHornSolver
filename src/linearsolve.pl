@@ -70,8 +70,10 @@ insertInvariants(Prog, Inv, K, OutputFile) :-
 % ---------------------------------------------------------------------------
 % the main program starts here
 
-main([Prog1]) :-
+main([Prog1]) :- !,
 	linearsolve(Prog1).
+main(_) :-
+	format(user_error, "Usage: linearsolve <prog>~n~n", []).
 
 linearsolve(Prog1) :-
 	logfile(LogFile),
