@@ -5,10 +5,10 @@
 % Output: safe if the program is solved else unknown if it is not solved
 
 :- use_module(library(format), [format/2, format/3]).
-:- use_module(library(system_extra), [mkpath/1]).
 :- use_module(library(pathnames), [path_basename/2, path_concat/3]).
 :- use_module(library(terms), [atom_concat/2]).
 :- use_module(library(prolog_sys), [statistics/2]).
+:- use_module(library(system_extra), [mktempdir_in_tmp/2, rmtempdir/1]).
 
 :- use_module(thresholds1, [main/1]).
 :- use_module(cpascc, [main/1]).
@@ -70,14 +70,16 @@ insertInvariants(Prog, Inv, K, OutputFile) :-
 % ---------------------------------------------------------------------------
 % the main program starts here
 
-main([Prog1]) :-
+main([Prog1]) :- !,
 	linearsolve(Prog1).
+main(_) :-
+	format(user_error, "Usage: linearsolve <prog>~n~n", []).
 
 linearsolve(Prog1) :-
 	logfile(LogFile),
 	open(LogFile, append, LogS),
-	atom_concat(Prog1, '_output', ResultDir),
-	mkpath(ResultDir),
+	% create a temporary directory
+	mktempdir_in_tmp('linearsolve-XXXXXXXX', ResultDir),
 	%
 	path_basename(Prog1, F),
 	K = 0,
@@ -92,6 +94,8 @@ linearsolve(Prog1) :-
 	format("The progr is ~w~n", [Prog]),
 	%
 	loop(LogS, ResultDir, F, K, Prog),
+	%
+	rmtempdir(ResultDir),
 	%
 	statistics(runtime,[END|_]),
 	DIFF is END - START,
