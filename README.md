@@ -19,7 +19,7 @@ dimension bounded program generator etc.
 Input: a set of Horn clauses. They are written using Prolog notation:
 e.g. `h(X):- C, b1(X1),...,bn(Xn).` 
 
-Output: A solution if the clauses are solvable using the tool and a counterexample otherwise.
+Output: A solution if the clauses are solvable using the tool or a counterexample otherwise.
 
 ## How to run
 1. `ciaoc src/linearsolve`
