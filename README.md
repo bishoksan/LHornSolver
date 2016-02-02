@@ -1,12 +1,12 @@
 # LHornSolver
-LHornSolver incrementally solves non-linear Horn clauses using only a
+LHornSolver uses an abstraction-refinement algorithm for solving non-linear Horn clauses using only a
 linear Horn clause solver.
 
 ## Programming 
 LHornSolver is written in Ciao and is interfaced with Yices SMT solver
 and Parma polyhedra library for handling constraints. LHornSolver uses
 several reusable components such as linear Horn clause solver,
-dimension bounded program generator etc.
+dimension bounded program generator, Horn clause linearisers etc.
 
 ## Requirements
 1. [Ciao](http://github.com/ciao-lang/ciao) with
