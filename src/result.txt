@@ -1,0 +1,12 @@
+fib.plfib.plfib.plfib.plfib.plfib.pl
+the  program is solved
+total time: 10.35500000000047
+DIMENSION = 0
+#####################################################################
+
+
+
+
+
+fib.pl
+fib.pl

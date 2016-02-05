@@ -1,0 +1,10 @@
+triple.nts.pl
+the  program is solved
+total time: 61.363
+DIMENSION = 1
+#####################################################################
+triple.nts.pl
+the  program is solved
+total time: 68.858
+DIMENSION = 1
+#####################################################################

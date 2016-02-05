@@ -16,6 +16,7 @@
 :- use_module(checkInv, [checkInv/2]).
 :- use_module(kdim1, [main/1]).
 :- use_module(insertInvKdim, [main/1]).
+:- use_module(library(system_extra), [mkpath/1]).
 
 % stores output of the tool
 logfile('result.txt').
@@ -70,6 +71,10 @@ insertInvariants(Prog, Inv, K, OutputFile) :-
 % ---------------------------------------------------------------------------
 % the main program starts here
 
+
+%    main(['../example/fib.pl']).
+
+
 main([Prog1]) :- !,
 	linearsolve(Prog1).
 main(_) :-
@@ -80,10 +85,12 @@ linearsolve(Prog1) :-
 	open(LogFile, append, LogS),
 	% create a temporary directory
 	mktempdir_in_tmp('linearsolve-XXXXXXXX', ResultDir),
+    %atom_concat(Prog1, '_output', ResultDir),
+    %mkpath(ResultDir),
 	%
 	path_basename(Prog1, F),
 	K = 0,
-        format(LogS, "~w~n", [F]),
+    format(LogS, "~w~n", [F]),
 	%
 	statistics(runtime,[START|_]),
 	%
@@ -93,26 +100,28 @@ linearsolve(Prog1) :-
 	kdim1:main(['-prg', Prog1, '-k', Ka, '-o', Prog]),
 	format("The progr is ~w~n", [Prog]),
 	%
-	loop(LogS, ResultDir, F, K, Prog),
+	loop(LogS, ResultDir, F, K, K2, Prog),
 	%
 	rmtempdir(ResultDir),
 	%
 	statistics(runtime,[END|_]),
 	DIFF is END - START,
 	format(LogS, "total time: ~w~n", [DIFF]),
-	format(LogS, "DIMENSION = ~w~n", [K]),
+	format(LogS, "DIMENSION = ~w~n", [K2]),
 	format(LogS, "#####################################################################~n", []),
 	close(LogS).
 
-loop(LogS, ResultDir, F, K, Prog) :-
+loop(LogS, ResultDir, F, K, K2, Prog) :-
 	pe_file(ResultDir, F, F_PE_CHA),
 	verifyCPA(Prog, F_PE_CHA, K, Ret1),
-	( Ret1 = otherwise ->
+	( Ret1 = 'otherwise' ->
+        K2=K,
 	    format(LogS, "the  program maybe unsolved: unknown~n", [])
 	; % verifyCPA procedure returned safe to a K-dim program and returned a solution, so proceed to check it against the original program
 	  % format(LogS, "checking inductive invariant with ~w-dim invariants~n", [K]),
-	  checkIndInvarint(Prog1, F_PE_CHA, Ret2),
+	  checkIndInvarint(Prog, F_PE_CHA, Ret2),
           ( Ret2 = safe -> % is inductive invariant
+             K2=K,
               format(LogS, "the  program is solved~n", [])
 	      % format(LogS, "the  inductive inv. are: ~n", []),
               % cat $resultdir/$f.pe.cha.pl >>$logFile
@@ -122,10 +131,10 @@ loop(LogS, ResultDir, F, K, Prog) :-
             format("generating ~w-dim program~n", [K1]),
 	    k_prog_file(ResultDir, F, K1, ProgK1),
 	    k_prog_file_s(ResultDir, F, K1, ProgK1S),
-            generateKdimProgram(Prog1, K1, ProgK1),
+            generateKdimProgram(Prog, K1, ProgK1),
             format("inserting invariants~n", []),
             insertInvariants(ProgK1, F_PE_CHA, K, ProgK1S),
-	    loop(LogS, ResultDir, F, K1, ProgK1S)
+	    loop(LogS, ResultDir, F, K1, K2, ProgK1S)
 	  )
 	).
 

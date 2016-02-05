@@ -52,7 +52,7 @@ setOptions(ArgV, Safety) :-
 	  open(OutputSmt, write, S1),
 	  printSmtOutput(S1, Safety), write(Safety), close(S1)
 	;
-	  printSmtOutput(user_output, Safety), write(Safety)
+	  printSmtOutput(user_output, Safety), write(Safety), nl
 	).
 
 % get_options/3 provided by Michael Leuschel
@@ -129,12 +129,13 @@ saveDisjInv(H, Invariants):-
     %melt((H, DisjInvariants), (H1, DisjInvariants1)),
     assert(disjInvariant((H, [DisjInvariants]))).
 
-list2Conj([], (1=1)). % meaning true
+
 list2Conj([A], (A)):-
     !.
 list2Conj([A|R], (A,R1)):-
     !,
 list2Conj(R, R1).
+list2Conj([], (1=1)). % meaning true
 
 list2Disj([A], (A1)):-
     list2Conj(A, A1).
