@@ -50,7 +50,7 @@ checkIndInvarint(Prog, Inv, Ret) :-
 	; Ret = unknown
 	).
 
-% ---------------------------------------------------------------------------
+% ---------------------------------------------------------------------------=
 % Prog contains the program,
 % K1 has the value of K,
 % OutputFile is the K-dim program,
@@ -72,7 +72,7 @@ insertInvariants(Prog, Inv, K, OutputFile) :-
 % the main program starts here
 
 
-%    main(['../example/fib.pl']).
+%    main(['../example/triple.nts.pl']).
 
 
 main([Prog1]) :- !,
@@ -100,9 +100,9 @@ linearsolve(Prog1) :-
 	kdim1:main(['-prg', Prog1, '-k', Ka, '-o', Prog]),
 	format("The progr is ~w~n", [Prog]),
 	%
-	loop(LogS, ResultDir, F, K, K2, Prog),
+	loop(LogS, ResultDir, Prog1, K, K2, Prog),
 	%
-	rmtempdir(ResultDir),
+	%rmtempdir(ResultDir),
 	%
 	statistics(runtime,[END|_]),
 	DIFF is END - START,
@@ -111,15 +111,17 @@ linearsolve(Prog1) :-
 	format(LogS, "#####################################################################~n", []),
 	close(LogS).
 
-loop(LogS, ResultDir, F, K, K2, Prog) :-
+loop(LogS, ResultDir, Prog1, K, K2, Prog) :-
+    path_basename(Prog1, F),
 	pe_file(ResultDir, F, F_PE_CHA),
+    format( "called #####################################################################~n", []),
 	verifyCPA(Prog, F_PE_CHA, K, Ret1),
-	( Ret1 = 'otherwise' ->
+	( Ret1 = otherwise ->
         K2=K,
 	    format(LogS, "the  program maybe unsolved: unknown~n", [])
 	; % verifyCPA procedure returned safe to a K-dim program and returned a solution, so proceed to check it against the original program
 	  % format(LogS, "checking inductive invariant with ~w-dim invariants~n", [K]),
-	  checkIndInvarint(Prog, F_PE_CHA, Ret2),
+	  checkIndInvarint(Prog1, F_PE_CHA, Ret2),
           ( Ret2 = safe -> % is inductive invariant
              K2=K,
               format(LogS, "the  program is solved~n", [])
@@ -129,12 +131,12 @@ loop(LogS, ResultDir, F, K, K2, Prog) :-
             % generate K+1 dim program, insert invariant and go back to repeat
             K1 is K + 1,
             format("generating ~w-dim program~n", [K1]),
-	    k_prog_file(ResultDir, F, K1, ProgK1),
-	    k_prog_file_s(ResultDir, F, K1, ProgK1S),
-            generateKdimProgram(Prog, K1, ProgK1),
+            k_prog_file(ResultDir, F, K1, ProgK1),
+            k_prog_file_s(ResultDir, F, K1, ProgK1S),
+            generateKdimProgram(Prog1, K1, ProgK1),
             format("inserting invariants~n", []),
             insertInvariants(ProgK1, F_PE_CHA, K, ProgK1S),
-	    loop(LogS, ResultDir, F, K1, K2, ProgK1S)
+            loop(LogS, ResultDir, Prog1, K1, K2, ProgK1S)
 	  )
 	).
 
