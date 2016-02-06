@@ -1,0 +1,52 @@
+logen(hornClause/2,hornClause(mc91(A,B),[A>100,B=A-10],[])).
+logen(hornClause/2,hornClause(mc91(A,B),[A>100,B=A-10],[])).
+logen(hornClause/2,hornClause(mc91(A,B),[A>100,B=A-10],[])).
+logen(hornClause/2,hornClause(mc91(A,B),[A=<100,C=A+11],[mc91(C,D),mc91(D,B)])).
+logen(hornClause/2,hornClause(false,[A=<100,B>91],[mc91(A,B)])).
+logen(hornClause/2,hornClause(false,[A=<100,B=<90],[mc91(A,B)])).
+logen(go/1,go(A)) :-
+        logen(unfold,getAtom(B)),
+        logen(memo,solve([false],A,1)).
+logen(solve/3,solve([C|D],A,B)) :-
+        logen(unfold,hornClause(C,E,F)),
+        logen(unfold,solveConstraints(E)),
+        logen(unfold,length(F,G)),
+        logen(call,H is G+B-1),
+        logen(call,H=<A),
+        logen(unfold,perm(F,I)),
+        logen(unfold,append(I,D,J)),
+        logen(memo,solve(J,A,H)).
+logen(solve/3,solve([],_,_)).
+logen(solveConstraints/1,solveConstraints([])).
+logen(solveConstraints/1,solveConstraints([A|B])) :-
+        logen(rescall,call(A)),
+        logen(unfold,solveConstraints(B)).
+logen(length/2,length([],0)).
+logen(length/2,length([_|B],A)) :-
+        logen(unfold,length(B,C)),
+        logen(call,A is C+1).
+logen(append/3,append([],A,A)).
+logen(append/3,append([B|C],A,[B|D])) :-
+        logen(unfold,append(C,A,D)).
+logen(select/3,select(A,[A|B],B)).
+logen(select/3,select(A,[B|C],[B|D])) :-
+        logen(unfold,select(A,C,D)).
+logen(perm/2,perm([],[])).
+logen(perm/2,perm(A,[B|C])) :-
+        logen(unfold,select(B,A,D)),
+        logen(unfold,perm(D,C)).
+
+logen(getAtom/1,getAtom(A)) :-
+        logen(unfold,hornClause(B,_,_)),
+        logen(call,functor(B,C,D)),
+        logen(call,functor(A,C,D)).
+
+
+:- type
+        stack--->(type list(nonvar)).
+        
+:- filter
+        go(static).
+:- filter
+        solve((type stack),static,static).
+        

@@ -26,7 +26,7 @@ checkSafety([F, K], Result) :-
 	( safe(F, K) ->
 	    write(S,': PROGRAM IS SAFE'),nl(S), Result = safe
 	;
-	    write(S,': PROGRAM MIGHT NOT BE SAFE'),nl(S), Result = 'otherwise' % unsafe or unknown
+	    write(S,': PROGRAM MIGHT NOT BE SAFE'),nl(S), Result = otherwise % unsafe or unknown
 	).
 	% close(S).
 

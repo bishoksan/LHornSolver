@@ -1,4 +1,4 @@
-:- module(linearsolve, [main/1], []).
+:- module(linearsolve, _).
 
 % Solves a non-linear Horn clause using a linear solver.
 % Input: a set of Horn clauses
@@ -18,10 +18,10 @@
 :- use_module(insertInvKdim, [main/1]).
 :- use_module(library(system_extra), [mkpath/1]).
 
+:- use_module(common).
+
 % stores output of the tool
 logfile('result.txt').
-
-number_atom(N, A) :- number_codes(N, C), atom_codes(A, C).
 
 % ---------------------------------------------------------------------------
 % Prog is program name,
@@ -102,7 +102,7 @@ linearsolve(Prog1) :-
 	%
 	loop(LogS, ResultDir, Prog1, K, K2, Prog),
 	%
-	%rmtempdir(ResultDir),
+	rmtempdir(ResultDir),
 	%
 	statistics(runtime,[END|_]),
 	DIFF is END - START,
@@ -117,6 +117,7 @@ loop(LogS, ResultDir, Prog1, K, K2, Prog) :-
     format( "called #####################################################################~n", []),
 	verifyCPA(Prog, F_PE_CHA, K, Ret1),
 	( Ret1 = otherwise ->
+        %refinement
         K2=K,
 	    format(LogS, "the  program maybe unsolved: unknown~n", [])
 	; % verifyCPA procedure returned safe to a K-dim program and returned a solution, so proceed to check it against the original program

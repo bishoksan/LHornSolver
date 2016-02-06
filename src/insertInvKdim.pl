@@ -36,7 +36,7 @@ setOptions(ArgV) :-
 			write(user_output,'No input file given.'),nl(user_output)),
     (member(inv(PFile),Options), readInvariants(PFile);
                 write(user_output,'No invariant file given.'),nl(user_output)),
-    (member(dim(K),Options), gedDim(K);
+    (member(dim(K),Options), saveDim(K);
                 write(user_output,'No dimension file given.'),nl(user_output)),
     (member(kdimIterated(Output),Options), open(Output, write, S), writeIteratedKDim(S), close(S);
 			writeIteratedKDim(user_output)).
@@ -65,7 +65,7 @@ recognised_option('-k', dim(R),[R]).
 recognised_option('-o', kdimIterated(R),[R]).
 
 
-gedDim(K):-
+saveDim(K):-
     assert(dimension(K)).
 
 %assume there is only one trace in the error trace file
@@ -185,11 +185,11 @@ predicateLevelKandBelow(H, K):-
     functor(H, P,_),
     name(P, N),
     (
-        append(N1, [91|R], N),
-        append(K1, [93|_], R)
+        append(N1, [91|R], N), %91 =[
+        append(K1, [93|_], R) %93=]
     ;
-        append(N1, [40|R], N),
-        append(K1, [41|_], R)
+        append(N1, [40|R], N), %40=(
+        append(K1, [41|_], R) %41 =)
     ),
     name(PK1, K1),
     convert2num(PK1, K2),

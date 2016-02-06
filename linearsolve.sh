@@ -139,7 +139,6 @@ do
 done
 
 
-
 END=$(date +%s000)
 DIFF=$(( $END - $START ))
 echo "total time: $DIFF" >>$logFile

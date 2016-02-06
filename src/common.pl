@@ -19,3 +19,16 @@ constraint(X>Y, X>Y).
 constraint(X>=Y, X>=Y).
 constraint(X=<Y, X=<Y).
 constraint(X<Y, X<Y).
+
+number_atom(N, A) :- number_codes(N, C), atom_codes(A, C).
+
+max_member([X], X).
+max_member([X|R], M):-
+    !,
+    max_member(R, Max),
+    max(X,Max, M).
+
+max(X, Y, X):-
+    X>=Y,
+    !.
+max(_, Y, Y).
