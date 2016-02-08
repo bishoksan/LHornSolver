@@ -17,7 +17,7 @@ dimension bounded program generator, Horn clause linearisers etc.
 3.  Partial Evaluator Logen
 
 ## Input and output
-Input: a set of (non)-linear Horn clauses written using Prolog notation:
+Input: `a set of (non)-linear Horn clauses` written using Prolog notation:
 e.g. `h(X):- C, b1(X1),...,bn(Xn).` 
 
 Output: `solved | unsolved | unknown` if the clauses are solvable | unsolvable | unknown.
