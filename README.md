@@ -14,7 +14,7 @@ dimension bounded program generator, Horn clause linearisers etc.
    (installed with `./ciao-boot.sh local-install
    --contrib:with_ppl=yes --contrib:auto_install_ppl=yes`)
 2. Ciao bindings for [Yices SMT solver](http://yices.csl.sri.com/) (`ciao get github.com/jfmc/ciao_yices`)
-3. Logen Partial Evaluator
+3.  Partial Evaluator Logen
 
 ## Input and output
 Input: a set of (non)-linear Horn clauses written using Prolog notation:
