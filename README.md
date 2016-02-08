@@ -14,22 +14,23 @@ dimension bounded program generator, Horn clause linearisers etc.
    (installed with `./ciao-boot.sh local-install
    --contrib:with_ppl=yes --contrib:auto_install_ppl=yes`)
 2. Ciao bindings for [Yices SMT solver](http://yices.csl.sri.com/) (`ciao get github.com/jfmc/ciao_yices`)
+3. Logen Partial Evaluator
 
 ## Input and output
-Input: a set of Horn clauses. They are written using Prolog notation:
+Input: a set of (non)-linear Horn clauses written using Prolog notation:
 e.g. `h(X):- C, b1(X1),...,bn(Xn).` 
 
-Output: A solution if the clauses are solvable using the tool or a counterexample otherwise.
+Output: solved if the clauses are solvable using the tool or unsolved if they are not solvable.
 
 ## How to run
-1. `ciaoc src/linearsolve`
-2. `src/linearsolve` \<`File containing a set of Horn clauses`\>
+1. `ciaoc src/lhornsolver`
+2. `src/lhornsolver` \<`File containing a set of Horn clauses`\>
 
 ## Generate a standalone binary distribution
 1. `mkdir dist; cd dist`
-2. `ciaoc_sdyn ../src/linearsolve`
+2. `ciaoc_sdyn ../src/lhornsolver`
 
-This creates a platform specific binary `linearsolve` at `dist/`
+This creates a platform specific binary `lhornsolver` at `dist/`
 directory, together with the collection of shared libraries for the
 dependencies.
 
