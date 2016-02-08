@@ -27,7 +27,7 @@ main(ArgV) :-
 	thresholds(3,Ps),
 	atomicprops,
 	%facts2props,
-	write('Writing out threshold facts'),
+	%write('Writing out threshold facts'),
 	nl,
 	showallprops(OutS),
 	nl(OutS),
@@ -36,7 +36,7 @@ main(ArgV) :-
 	
 thresholds(N,Ps) :-
 	N > 0,
-	write('Iteration '), write(N), nl,
+	%write('Iteration '), write(N), nl,
 	%atomicprops,
 	facts2props,
 	clearfacts,

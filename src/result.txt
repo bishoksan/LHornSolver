@@ -1,12 +1,9 @@
-fib.plfib.plfib.plfib.plfib.plfib.pl
-the  program is solved
-total time: 10.35500000000047
-DIMENSION = 0
-#####################################################################
-
-
-
-
-
-fib.pl
-fib.pl
+LHornSolver: {Program: countZero.nts.pl, Safety: solved, Iteration: 1, Time: 1002.489 millisecs.} 
+LHornSolver: {Program: running.nts.pl, Safety: unsolved, Iteration: 1, Time: 959.797 millisecs.} 
+LHornSolver: {Program: Ackermann02_false-unreach-call_false-termination.c.pl, Safety: unknown, Iteration: 1, Time: 1077.206 millisecs.} 
+LHornSolver: {Program: McCarthy91_false-unreach-call_false-termination.c.pl, Safety: unsolved, Iteration: 1, Time: 566.257 millisecs.} 
+LHornSolver: {Program: parity.nts.pl, Safety: unknown, Iteration: 1, Time: 1649.292 millisecs.} 
+LHornSolver: {Program: sum_non_eq_false-unreach-call.c.pl, Safety: unsolved, Iteration: 1, Time: 304.404 millisecs.} 
+LHornSolver: {Program: Fibonacci04_false-unreach-call_true-termination.c.pl, Safety: unsolved, Iteration: 1, Time: 617.404 millisecs.} 
+LHornSolver: {Program: sum_10x0_false-unreach-call.c.pl, Safety: unknown, Iteration: 1, Time: 323.841 millisecs.} 
+LHornSolver: {Program: Addition03_false-unreach-call.c.pl, Safety: unsolved, Iteration: 1, Time: 602.308 millisecs.} 

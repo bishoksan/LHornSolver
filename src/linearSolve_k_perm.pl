@@ -1,6 +1,6 @@
 go(K) :-
 	getAtom(A),
-	solve([false],K,1).
+	solve([A],K,1).
 solve([G|Gs],K,L) :-
 	hornClause(G,Cs,B),
 	solveConstraints(Cs),

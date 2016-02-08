@@ -684,15 +684,81 @@ solve_m(A,B,C,Requestor,ResidualCall,__LOGENDATA) :-
             print_filter_error('A memoised call is not covered by its filter declaration and could not be specialized.',error,filter,[call(solve(A,B,C))],F),
             abort_specialization
         ).
-hornClause_u(mc91(A,B),[A>100,B=A-10],[],true,__LOGENDATA).
-hornClause_u(mc91(A,B),[A>100,B=A-10],[],true,__LOGENDATA).
-hornClause_u(mc91(A,B),[A>100,B=A-10],[],true,__LOGENDATA).
-hornClause_u(mc91(A,B),[A=<100,C=A+11],[mc91(C,D),mc91(D,B)],true,__LOGENDATA).
-hornClause_u(false,[A=<100,B>91],[mc91(A,B)],true,__LOGENDATA).
-hornClause_u(false,[A=<100,B=<90],[mc91(A,B)],true,__LOGENDATA).
+hornClause_u('false(1)',[],['main_verifier_error(1)'],true,__LOGENDATA).
+hornClause_u('false(0)',[],['main_verifier_error(0)'],true,__LOGENDATA).
+hornClause_u('addition(0)'(A,B,C,_,_,_),[1*A=1,1*B=1,1*C=1],[],true,__LOGENDATA).
+hornClause_u('addition(0)'(A,B,C,_,_,_),[1*A=0,1*B=1,1*C=1],[],true,__LOGENDATA).
+hornClause_u('addition(0)'(A,B,C,_,_,_),[1*A=0,1*B=0,1*C=0],[],true,__LOGENDATA).
+hornClause_u('addition__1(0)'(_,_),[true],[],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(A,B,C),[1*A+ -1*B=0,1*C=0],['addition__1(1)'(B,C)],true,__LOGENDATA).
+hornClause_u('addition___0(0)'(A,B,C),[1*A+ -1*B=0,1*C=0],[],true,__LOGENDATA).
+hornClause_u('addition__4(1)'(A,B,_),[-1*B>0],['addition__1(1)'(A,B)],true,__LOGENDATA).
+hornClause_u('addition__4(0)'(_,A,_),[-1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__4(1)'(A,B,_),[1*B>0],['addition__1(1)'(A,B)],true,__LOGENDATA).
+hornClause_u('addition__4(0)'(_,A,_),[1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__6(1)'(A,B),[1*B>0],['addition__4(1)'(A,B,_)],true,__LOGENDATA).
+hornClause_u('addition__6(0)'(_,A),[1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__10(1)'(A,B,C),[-1*B>=0],['addition__4(1)'(A,B,C)],true,__LOGENDATA).
+hornClause_u('addition__10(0)'(_,A,_),[-1*A>=0],[],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(A,B,C),[1*D=1,1*E=0,1*F=0,1*B+ -1*G= -1,1*C+ -1*H=1],['addition__6(1)'(B,C),'addition[0]'(D,E,F,G,H,A)],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(A,B,C),[1*D=1,1*E=0,1*F=0,1*B+ -1*G= -1,1*C+ -1*H=1],['addition__6[0]'(B,C),'addition(1)'(D,E,F,G,H,A)],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(_,_,A),[1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__12(1)'(A,B),[-1*B>0],['addition__10(1)'(A,B,_)],true,__LOGENDATA).
+hornClause_u('addition__12(0)'(_,A),[-1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(A,B,C),[1*C>=0],['addition__10(1)'(B,C,A)],true,__LOGENDATA).
+hornClause_u('addition___0(0)'(_,_,A),[1*A=0],[],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(A,B,C),[1*D=1,1*E=0,1*F=0,1*B+ -1*G=1,1*C+ -1*H= -1],['addition__12(1)'(B,C),'addition[0]'(D,E,F,G,H,A)],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(A,B,C),[1*D=1,1*E=0,1*F=0,1*B+ -1*G=1,1*C+ -1*H= -1],['addition__12[0]'(B,C),'addition(1)'(D,E,F,G,H,A)],true,__LOGENDATA).
+hornClause_u('addition___0(1)'(_,_,A),[-1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__split(1)'(A,B,C),[],['addition___0(1)'(A,B,C)],true,__LOGENDATA).
+hornClause_u('addition__split(0)'(_,_,A),[1*A=0],[],true,__LOGENDATA).
+hornClause_u('addition(1)'(A,B,C,D,E,F),[1*A=1,1*B=0,1*C=0],['addition__split(1)'(F,D,E)],true,__LOGENDATA).
+hornClause_u('addition(0)'(A,B,C,_,D,_),[1*A=1,1*B=0,1*C=0,1*D=0],[],true,__LOGENDATA).
+hornClause_u('main_entry(0)',[true],[],true,__LOGENDATA).
+hornClause_u('main__un(1)',[1*A>=100,1*B>=100,-1*C>= -199,1*D=1,1*E=0,1*F=0],['main_entry(1)','addition[0]'(D,E,F,A,B,C)],true,__LOGENDATA).
+hornClause_u('main__un(1)',[1*A>=100,1*B>=100,-1*C>= -199,1*D=1,1*E=0,1*F=0],['main_entry[0]','addition(1)'(D,E,F,A,B,C)],true,__LOGENDATA).
+hornClause_u('main__un(1)',[true],[],true,__LOGENDATA).
+hornClause_u('main_verifier_error(1)',[],['main__un(1)'],true,__LOGENDATA).
+hornClause_u('main_verifier_error(0)',[],['main__un(0)'],true,__LOGENDATA).
+hornClause_u('addition[1]'(A,B,C,D,E,F),[],['addition(1)'(A,B,C,D,E,F)],true,__LOGENDATA).
+hornClause_u('addition[1]'(A,B,C,_,_,_),[1*A>=0,1*B>=0,-1*B>= -1,-1*A>= -1,1*B+ -1*C=0],[],true,__LOGENDATA).
+hornClause_u('addition[0]'(A,B,C,_,_,_),[1*A>=0,1*B>=0,-1*B>= -1,-1*A>= -1,1*B+ -1*C=0],[],true,__LOGENDATA).
+hornClause_u('addition__1[1]'(A,B),[],['addition__1(1)'(A,B)],true,__LOGENDATA).
+hornClause_u('addition__1[1]'(_,_),[true],[],true,__LOGENDATA).
+hornClause_u('addition__1[0]'(_,_),[true],[],true,__LOGENDATA).
+hornClause_u('addition__10[1]'(A,B,C),[],['addition__10(1)'(A,B,C)],true,__LOGENDATA).
+hornClause_u('addition__10[1]'(_,A,_),[-1*A>=0],[],true,__LOGENDATA).
+hornClause_u('addition__10[0]'(_,A,_),[-1*A>=0],[],true,__LOGENDATA).
+hornClause_u('addition__12[1]'(A,B),[],['addition__12(1)'(A,B)],true,__LOGENDATA).
+hornClause_u('addition__12[1]'(_,A),[-1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__12[0]'(_,A),[-1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__4[1]'(A,B,C),[],['addition__4(1)'(A,B,C)],true,__LOGENDATA).
+hornClause_u('addition__4[1]'(_,_,_),[true],[],true,__LOGENDATA).
+hornClause_u('addition__4[0]'(_,_,_),[true],[],true,__LOGENDATA).
+hornClause_u('addition__6[1]'(A,B),[],['addition__6(1)'(A,B)],true,__LOGENDATA).
+hornClause_u('addition__6[1]'(_,A),[1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition__6[0]'(_,A),[1*A>0],[],true,__LOGENDATA).
+hornClause_u('addition___0[1]'(A,B,C),[],['addition___0(1)'(A,B,C)],true,__LOGENDATA).
+hornClause_u('addition___0[1]'(_,_,A),[1*A=0],[],true,__LOGENDATA).
+hornClause_u('addition___0[0]'(_,_,A),[1*A=0],[],true,__LOGENDATA).
+hornClause_u('addition__split[1]'(A,B,C),[],['addition__split(1)'(A,B,C)],true,__LOGENDATA).
+hornClause_u('addition__split[1]'(_,_,A),[1*A=0],[],true,__LOGENDATA).
+hornClause_u('addition__split[0]'(_,_,A),[1*A=0],[],true,__LOGENDATA).
+hornClause_u('false[1]',[],['false(1)'],true,__LOGENDATA).
+hornClause_u('false[1]',[],['false(0)'],true,__LOGENDATA).
+hornClause_u('false[0]',[],['false(0)'],true,__LOGENDATA).
+hornClause_u('main__un[1]',[],['main__un(1)'],true,__LOGENDATA).
+hornClause_u('main__un[1]',[],['main__un(0)'],true,__LOGENDATA).
+hornClause_u('main__un[0]',[],['main__un(0)'],true,__LOGENDATA).
+hornClause_u('main_entry[1]',[],['main_entry(1)'],true,__LOGENDATA).
+hornClause_u('main_entry[1]',[true],[],true,__LOGENDATA).
+hornClause_u('main_entry[0]',[true],[],true,__LOGENDATA).
+hornClause_u('main_verifier_error[1]',[],['main_verifier_error(1)'],true,__LOGENDATA).
+hornClause_u('main_verifier_error[1]',[],['main_verifier_error(0)'],true,__LOGENDATA).
+hornClause_u('main_verifier_error[0]',[],['main_verifier_error(0)'],true,__LOGENDATA).
 go_u(A,(B,C),__LOGENDATA) :-
-        getAtom_u(_,B,__LOGENDATA),
-        solve_m([false],A,1,internal,C,__LOGENDATA).
+        getAtom_u(D,B,__LOGENDATA),
+        solve_m([D],A,1,internal,C,__LOGENDATA).
 solve_u([C|D],A,B,(E,F,G,H,I,J),__LOGENDATA) :-
         hornClause_u(C,K,L,E,__LOGENDATA),
         solveConstraints_u(K,F,__LOGENDATA),

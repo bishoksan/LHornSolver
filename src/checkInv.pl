@@ -20,7 +20,7 @@ which contains disjunctively  invariants  as assertions together with the initia
 
 
 go2:-
-    %main(['-prg', 'example/fib1.pl', '-inv', 'example/fib0Inv.pl']), nl.
+    main(['-prg', '/Users/kafle/Desktop/mctest/mc91.pl', '-inv', '/Users/kafle/Desktop/mctest/mc91_1.pl.lin.cha.pl']), nl.
     %main(['-prg', 'example/mc91.pl', '-inv', 'example/mc910Inv.pl']), nl.
     main(['-prg', '/Users/kafle/Desktop/linearHornSolver/example/bfprt.nts.pl', '-inv', '/Users/kafle/Desktop/linearHornSolver/example/bfprt.nts.pl_output/bfprt.nts.pl.pe.cha.pl']), nl.
 
@@ -102,13 +102,15 @@ renameToOriginalPred(H, H1):-
         append(H1Name, [91|_], HName) %ascii of [=91
     ;
         append(H1Name, [40|_], HName) %ascii of (=40 and )=41
+    ;
+        H1Name=HName
     ),
     name(P1, H1Name),
     H1=..[P1|Arg].
 
 %do not collect false
 predicates(Ps):-
-    setof(P/N, [H,C]^(invariant((H,C)), functor(H,P,N), P \== false), Ps).
+    (setof(P/N, [H,C]^(invariant((H,C)), functor(H,P,N), P \== false), Ps)-> true; Ps=[]).
 
 collectDisjInv([]).
 collectDisjInv([P/N|L]):-
@@ -224,18 +226,18 @@ printSmtOutput(S, Safety):-
     yices_init,
     (yices_unsat(Formula,VReals)->
         %the original program is safe, there is no interpretation of the predicates which can satistify all clauses
-        Safety=safe,
-        write(S, ' % The safe inductive invariants are '),
-        nl(S),
+        Safety=safe
+        %write(S, ' % The safe inductive invariants are '),
+        %nl(S),
         %writeInvs(S),
-        write(S, ' % for the program '), nl(S)
+        %write(S, ' % for the program '), nl(S)
         %writeCls(S),
     ;
-        Safety=unknown,
-        write(S, 'The following is not an inductive invariant '),
-        nl(S),
-        %writeInvs(S),
-        write(S, ' % for the program '), nl(S)
+        Safety=unknown
+        %write(S, 'The following is not an inductive invariant '),
+        %nl(S),
+        %writeInvs(S)
+        %write(S, ' % for the program '), nl(S)
         %writeCls(S),
     ),
     yices_exit.

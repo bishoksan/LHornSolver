@@ -24,9 +24,9 @@ existsCex(_,(cex(Cex)),Cex) :-
 	write(user_output,Cex),
 	nl(user_output).
 existsCex(_,(counterexample(Cex)),Cex) :-
-	!,
-	write(user_output,Cex),
-	nl(user_output).
+	!.
+	%write(user_output,Cex),
+	%nl(user_output).
 existsCex(S,_,Cex) :-
 	read(S,C1),
 	existsCex(S,C1,Cex).

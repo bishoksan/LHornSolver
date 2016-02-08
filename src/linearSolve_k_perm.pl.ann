@@ -1,6 +1,6 @@
 logen(go/1,go(A)) :-
         logen(unfold,getAtom(B)),
-        logen(memo,solve([false],A,1)).
+        logen(memo,solve([B],A,1)).
 logen(solve/3,solve([C|D],A,B)) :-
         logen(unfold,hornClause(C,E,F)),
         logen(unfold,solveConstraints(E)),

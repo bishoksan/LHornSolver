@@ -1,7 +1,6 @@
-:- module(common, _).
+:-module(common,_).
 
-
-:- use_module(library(lists)).
+:-use_module(linearize).
 
 separate_constraints([],[],[]).
 separate_constraints([B|Bs],[C|Cs],Ds) :-
@@ -12,13 +11,6 @@ separate_constraints([B|Bs],Cs,[B|Ds]) :-
 	separate_constraints(Bs,Cs,Ds).
 
 
-constraint(X=Y, X=Y).
-constraint(X=:=Y, X=Y).
-constraint(X is Y, X = Y).
-constraint(X>Y, X>Y).
-constraint(X>=Y, X>=Y).
-constraint(X=<Y, X=<Y).
-constraint(X<Y, X<Y).
 
 number_atom(N, A) :- number_codes(N, C), atom_codes(A, C).
 
@@ -32,3 +24,4 @@ max(X, Y, X):-
     X>=Y,
     !.
 max(_, Y, Y).
+
