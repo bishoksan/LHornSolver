@@ -82,7 +82,7 @@ abstract_refine(InP, F_INV, Dim, Interpreter, Annotation, F_WidenPoints, F_Thres
         )
     ;
     (Status=unsafe ->
-        write('efining ...'), nl,
+        write('refining ...'), nl,
 
         (empty_constrained_facts ->
             Dim2=Dim,
@@ -120,7 +120,7 @@ save_constrained_facts(S,(H:-B)):-
     save_constrained_facts(S, C).
 
 empty_constrained_facts:-
-    (constrained_fact(_,_)-> true; fail).
+    (constrained_fact(_,_)-> fail; true).
 
 remove_constrained_facts(PLin,  CExLinear):-
     load_file(PLin),
