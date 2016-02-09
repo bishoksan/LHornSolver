@@ -40,7 +40,7 @@ main([InP]):-
 solve(InP, Result):-
     logfile(LogFile),
 	open(LogFile, append, LogS),
-    mktempdir_in_tmp('solveNLinear-XXXXXXXX', ResultDir),
+    mktempdir_in_tmp('linearHornSolver-XXXXXXXX', ResultDir),
     write('temp dir: '), nl,
     write(ResultDir), nl,
     write('initialising ....'), nl,
@@ -62,7 +62,6 @@ abstract_refine(InP, F_INV, Dim, Interpreter, Annotation, F_WidenPoints, F_Thres
     write('linearising ....'), nl,
     linearise(InP, F_INV,Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin),
     write('solving linearly ....'), nl,
-    %PLin1='logenmapFile.pl',
     recoverOriginalPred(PLin, Dim, F_LOGEN_MAP),
     (Dim>0 ->
         read_constrained_facts(F_INV) %facts from the previous iteration
@@ -83,13 +82,16 @@ abstract_refine(InP, F_INV, Dim, Interpreter, Annotation, F_WidenPoints, F_Thres
     ;
     (Status=unsafe ->
         write('refining ...'), nl,
-
-        (empty_constrained_facts ->
+        sizeCF(N), %corresponds to the previous iteration since they were the one plugged in
+        remove_constrained_facts(F_LOGEN_MAP,  F_CEX),
+        sizeCF(N1),
+        (N=N1 -> %constraiend fact did not change
+            write('real counterexample found'), nl,
             Dim2=Dim,
             Result=unsolved  % the trace in F_CEX is a counterexample since no constrained facts were used
         ;
-            read_constrained_facts(F_INV),
-            remove_constrained_facts(F_LOGEN_MAP,  F_CEX),
+             write('remove facts corresponding to the error trace....'), nl,
+            write_constrained_facts(F_INV),
             abstract_refine(InP, F_INV, Dim, Interpreter, Annotation, F_WidenPoints, F_Threshold, F_CEX, PLin, F_KDIM, F_KDIM_S, F_LOGEN_MAP, Dim2, Result)
         )
     ;
@@ -119,8 +121,24 @@ save_constrained_facts(S,(H:-B)):-
     read(S,C),
     save_constrained_facts(S, C).
 
-empty_constrained_facts:-
-    (constrained_fact(_,_)-> fail; true).
+
+write_constrained_facts(F_INV):-
+    open(F_INV, write, S),
+    writeConstrainedFacts(S),
+    close(S).
+
+
+writeConstrainedFacts(S):-
+    constrained_fact(H, B),
+    numbervars((H,B), 0, _),
+    writeq(S,H),
+    write(S,' :-'),
+    write(S,B),
+    write(S,'.'),
+    nl(S),
+    fail.
+writeConstrainedFacts(_).
+
 
 remove_constrained_facts(PLin,  CExLinear):-
     load_file(PLin),
@@ -143,6 +161,10 @@ remove_constrained_facts_error_preds([P/N|Preds]):-
     functor(A, P, N),
     retract(constrained_fact(A, _)),
     remove_constrained_facts_error_preds(Preds).
+
+sizeCF(N):-
+    findall(A, constrained_fact(A,_), List),
+    length(List, N).
 
 
 % ---------------------------------------------------------------------------

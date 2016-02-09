@@ -17,7 +17,7 @@ The algorithm is presented in the paper: Solving non-linear Horn clauses using a
 :- use_module(common).
 :- use_module(chc2logen).
 :- use_module(linearsolve).
-:- use_module(insertInvKdimNL, [main/1]).
+:- use_module(plugin_solution, [main/1]).
 
 
 /*
@@ -57,7 +57,7 @@ linearise(P, S, Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin):-
 
 pluginSolution(Inv, Prog, K,  P1):-
     number_atom(K, Ka),
-	insertInvKdimNL:main(['-prg', Prog, '-inv', Inv, '-k', Ka, '-o', P1]).
+	plugin_solution:main(['-prg', Prog, '-inv', Inv, '-k', Ka, '-o', P1]).
 
 linearisePE(In, Interpreter, Annotation, StackSize, PLin):-
     atom_concat(In, '.logen', InLogen),
