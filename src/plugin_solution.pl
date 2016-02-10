@@ -90,8 +90,6 @@ cleanup:-
     retractall(dimension(_)).
 
 
-
-
 % outputs
 
 writeOutputCls(S):-
@@ -107,7 +105,7 @@ writeOutputCls1(S, _):-
     my_clause(H, Body,_),
     functor(H, P,N),
     functor(H1, P,N),
-    (invariant(H1, Bs) -> %invarints exist for this clause, so replace it definition
+    ((invariant(H1, Bs), H1\==false) -> %invarints exist for this clause, so replace it definition
         list2Conj(Bs, B),
         numbervars((H1, B), 0,_),
          writeInvClauses(H1,B,S)

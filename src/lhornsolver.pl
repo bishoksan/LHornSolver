@@ -52,7 +52,7 @@ solve(InP, Result):-
     statistics(runtime,[END|_]),
     DIFF is END - START,
     %remove the directory of intermediate files
-    rmtempdir(ResultDir),
+    %rmtempdir(ResultDir),
     printLHornSolverOutput(LogS,Orig_F, Result, Dim2, DIFF),
     close(LogS).
     %write('the program '), write(InP), write(' is '), write(Result), nl.
@@ -140,26 +140,32 @@ writeConstrainedFacts(S):-
 writeConstrainedFacts(_).
 
 
-remove_constrained_facts(PLin,  CExLinear):-
+remove_constrained_facts(PLin,  F_CEX):-
     load_file(PLin),
     Predset=[],
-    predicatesErrorTrace(CExLinear, Predset, ErrorPreds),
+    open(F_CEX,read,S),
+	read(S,C), %expect only one cex
+    close(S),
+	C=counterexample(CExLinear),
+    predicatesErrorTrace([CExLinear], Predset, ErrorPreds),
     remove_constrained_facts_error_preds(ErrorPreds).
 
-predicatesErrorTrace(CExLinear, Predset, ErrorPreds):-
+%holds for linear counterexample
+predicatesErrorTrace([CExLinear], Predset, ErrorPreds):-
     CExLinear=..[C|Ts1],
     my_clause(B,_,C),
     functor(B, P,N),
-    append(P/N, Predset, Predset1),
+    %append([P/N], Predset, Predset1),
+    Predset1=[P/N|Predset],
     !,
     predicatesErrorTrace(Ts1, Predset1, ErrorPreds).
-predicatesErrorTrace(_, ErrorPreds, ErrorPreds).
+predicatesErrorTrace([], ErrorPreds, ErrorPreds).
 
 
 remove_constrained_facts_error_preds([]).
 remove_constrained_facts_error_preds([P/N|Preds]):-
     functor(A, P, N),
-    retract(constrained_fact(A, _)),
+    (constrained_fact(A, _) -> write('removed ---- '), retractall(constrained_fact(A, _)); true),
     remove_constrained_facts_error_preds(Preds).
 
 sizeCF(N):-
