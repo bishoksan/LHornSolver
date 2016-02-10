@@ -25,7 +25,7 @@ same as linearsolve but with abstraction refinement, returns solved or unsolved 
 :- use_module(checkInv, [checkInv/2]).
 :- use_module(logen_map).
 
-:-data constrained_fact/2. % (Atom, Constraint)
+:-data constrained_fact/2. % constrained_fact(Atom, [Constraint])
 
 
 % stores output of the tool
@@ -150,6 +150,8 @@ remove_constrained_facts(PLin,  F_CEX):-
     predicatesErrorTrace([CExLinear], Predset, ErrorPreds),
     remove_constrained_facts_error_preds(ErrorPreds).
 
+
+
 %holds for linear counterexample
 predicatesErrorTrace([CExLinear], Predset, ErrorPreds):-
     CExLinear=..[C|Ts1],
@@ -165,7 +167,7 @@ predicatesErrorTrace([], ErrorPreds, ErrorPreds).
 remove_constrained_facts_error_preds([]).
 remove_constrained_facts_error_preds([P/N|Preds]):-
     functor(A, P, N),
-    (constrained_fact(A, _) -> write('removed ---- '), retractall(constrained_fact(A, _)); true),
+    (constrained_fact(A, _) ->   retractall(constrained_fact(A, _)); true),
     remove_constrained_facts_error_preds(Preds).
 
 sizeCF(N):-
