@@ -13,6 +13,7 @@ which contains disjunctively  invariants  as assertions together with the initia
 :- use_module(yices2_sat).
 :- use_module(ciao_yices(ciao_yices_2)).
 :- use_module(canonical).
+:- use_module(common).
 
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
@@ -21,8 +22,10 @@ which contains disjunctively  invariants  as assertions together with the initia
 
 go2:-
     main(['-prg', '/Users/kafle/Desktop/mctest/mc91.pl', '-inv', '/Users/kafle/Desktop/mctest/mc91_1.pl.lin.cha.pl']), nl.
-    %main(['-prg', 'example/mc91.pl', '-inv', 'example/mc910Inv.pl']), nl.
-    main(['-prg', '/Users/kafle/Desktop/linearHornSolver/example/bfprt.nts.pl', '-inv', '/Users/kafle/Desktop/linearHornSolver/example/bfprt.nts.pl_output/bfprt.nts.pl.pe.cha.pl']), nl.
+/*
+    main(['-prg', 'example/mc91.pl', '-inv', 'example/mc910Inv.pl']), nl.
+    %main(['-prg', '/Users/kafle/Desktop/linearHornSolver/example/bfprt.nts.pl', '-inv', '/Users/kafle/Desktop/linearHornSolver/example/bfprt.nts.pl_output/bfprt.nts.pl.pe.cha.pl']), nl.
+*/
 
 %ArgV = ['-prg', Input, '-inv', InvariantFile]
 main(ArgV):-
@@ -127,40 +130,17 @@ collectOnlyConstraints([(H,I)|Invs], H, [I|Cs]):-
 
 %at least one element will be there, it is guranteed since H comes from invariant
 saveDisjInv(H, Invariants):-
-    list2Disj(Invariants, DisjInvariants),
+    listofList2Disj(Invariants, DisjInvariants),
     %melt((H, DisjInvariants), (H1, DisjInvariants1)),
     assert(disjInvariant((H, [DisjInvariants]))).
 
 
-list2Conj([A], (A)):-
-    !.
-list2Conj([A|R], (A,R1)):-
-    !,
-list2Conj(R, R1).
-list2Conj([], (1=1)). % meaning true
-
-list2Disj([A], (A1)):-
-    list2Conj(A, A1).
-list2Disj([A|R], ((A1);R1)):-
-    list2Conj(A, A1),
-    list2Disj(R, R1).
-
-dummyCList([],[]).
-dummyCList([C|Cs],[C=C|Cs1]) :-
-    dummyCList(Cs,Cs1).
 
 cleanup:-
     retractall(my_clause(_,_,_)),
     retractall(invariant(_)),
     retractall(disjInvariant(_)).
 
-separate_constraints([],[],[]).
-separate_constraints([B|Bs],[C|Cs],Ds) :-
-	constraint(B,C),
-	!,
-	separate_constraints(Bs,Cs,Ds).
-separate_constraints([B|Bs],Cs,[B|Ds]) :-
-	separate_constraints(Bs,Cs,Ds).
 
 formDisjInv:-
     predicates(Ps),
@@ -214,7 +194,7 @@ makeRealVars([V|Vs], [(V,int)|VReals]):-
 
 % outputs
 
-printSmtOutput(S, Safety):-
+printSmtOutput(_, Safety):-
     formDisjInv,
     clauses(Cls),
     formulaCls(Cls, [false], Formula),

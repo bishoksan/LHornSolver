@@ -11,8 +11,8 @@ same as linearsolve but with abstraction refinement, returns solved or unsolved 
 :- use_module(library(pathnames), [path_basename/2, path_concat/3]).
 :- use_module(library(terms), [atom_concat/2]).
 :- use_module(library(prolog_sys), [statistics/2]).
-:- use_module(library(system_extra), [mktempdir_in_tmp/2, rmtempdir/1]).
-:- use_module(library(system_extra), [mkpath/1]).
+:- use_module(library(system_extra), [mktempdir_in_tmp/2, rmtempdir/1,mkpath/1]).
+%:- use_module(library(system_extra), [mkpath/1]).
 :- use_module(library(process), [process_call/3]).
 
 %:- use_module(linearsolve).
@@ -40,7 +40,7 @@ main([InP]):-
 solve(InP, Result):-
     logfile(LogFile),
 	open(LogFile, append, LogS),
-    mktempdir_in_tmp('linearHornSolver-XXXXXXXX', ResultDir),
+    mktempdir_in_tmp('lHornSolver-XXXXXXXX', ResultDir),
     write('temp dir: '), nl,
     write(ResultDir), nl,
     write('initialising ....'), nl,

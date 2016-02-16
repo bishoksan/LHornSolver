@@ -13,6 +13,7 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :- use_module(canonical).
 :- use_module(ppl_ops).
 :- use_module(setops).
+:- use_module(common).
 
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
@@ -234,10 +235,3 @@ writeBodyAtoms(S,[B1,B2|Bs]) :-
 	write(S,','),
 	nl(S),
 	writeBodyAtoms(S,[B2|Bs]).
-
-convert2num(A,A) :-
-	number(A),
-	!.
-convert2num(A,A1) :-
-	atom(A),
-	atom_number(A,A1).
