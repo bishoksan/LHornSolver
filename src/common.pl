@@ -25,7 +25,7 @@ listofList2Disj([A|R], ((A1);R1)):-
     !,
     list2Conj(A, A1),
     listofList2Disj(R, R1).
-listofList2Disj([[]], (1=0)). %meaning false
+listofList2Disj([], (1=0)). %meaning false
 
 
 number_atom(N, A) :- number_codes(N, C), atom_codes(A, C).
@@ -51,4 +51,7 @@ convert2num(A,A1) :-
 dummyCList([],[]).
 dummyCList([C|Cs],[C=C|Cs1]) :-
     dummyCList(Cs,Cs1).
+
+
+
 
