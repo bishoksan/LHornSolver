@@ -12,20 +12,19 @@ same as linearsolve but with abstraction refinement, returns solved or unsolved 
 :- use_module(library(terms), [atom_concat/2]).
 :- use_module(library(prolog_sys), [statistics/2]).
 :- use_module(library(system_extra), [mktempdir_in_tmp/2, rmtempdir/1,mkpath/1]).
-%:- use_module(library(system_extra), [mkpath/1]).
 :- use_module(library(process), [process_call/3]).
 
-%:- use_module(linearsolve).
 :- use_module(lineariseCHC).
 :- use_module(thresholds1, [main/1]).
 :- use_module(counterExample, [main/1]).
 :- use_module(load_simple).
 :- use_module(cpascc).
-:- use_module(common).
 :- use_module(checkInv, [checkInv/2]).
 :- use_module(logen_map).
 
-:-data constrained_fact/2. % constrained_fact(Atom, [Constraint])
+%:- include(common).
+
+:- data constrained_fact/2. % constrained_fact(Atom, [Constraint])
 
 
 % stores output of the tool

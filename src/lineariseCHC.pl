@@ -14,10 +14,10 @@ The algorithm is presented in the paper: Solving non-linear Horn clauses using a
 :- use_module(library(pathnames), [path_basename/2, path_concat/3, path_split/3]).
 :- use_module(load_simple).
 :- use_module(kdim1).
-:- use_module(common).
 :- use_module(chc2logen).
-:- use_module(linearsolve).
 :- use_module(plugin_solution, [main/1]).
+
+:- include(common).
 
 
 /*
@@ -38,6 +38,7 @@ cogen_executable(Cogen) :-
 % ---------------------------------------------------------------------------
 
 
+recognised_option(_,_,_). %due to include common.pl
 
 linearise(P, S, Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin):-
     number_atom(Dim, Ka),

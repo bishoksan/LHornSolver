@@ -9,10 +9,13 @@ based on linearSolveProg.pl interpreter
 :- use_module(library(dynamic)).
 :- use_module(library(read)).
 :- use_module(load_simple).
-:- use_module(common).
+
 :- use_module(library(process), [process_call/3]).
 
+:- include(common).
 
+
+recognised_option(_,_,_). %due to include common
 go:-
     recoverOriginalPred('../mc91.pl.lin', 1, '../mc91.pl.lin.rec.pl').
 

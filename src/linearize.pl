@@ -1,6 +1,6 @@
-:- module(linearize,[linearize/2, constraint/2, constraint1/2, linear_constraint/1]).
+:- module(linearize,[linearize/2,  linear_constraint/1]).
 
-
+:-include(common).
 	
 %%%%%%%%%%%%
 %
@@ -173,28 +173,4 @@ linear_approx(X = \Y, X = 255 - Y) :-
 	const(Y), !.
 
 
-constraint(X=Y, X=Y).
-constraint(X=:=Y, X=Y).
-constraint(X is Y, X = Y).
-constraint(X>Y, X>Y).
-constraint(X>=Y, X>=Y).
-constraint(X=<Y, X=<Y).
-constraint(X<Y, X<Y).
 
-constraint(_\==_,0=0).
-constraint(_=\=_,0=0).
-constraint(true,0=0).
-constraint(fail,1=0).
-
-%this is for removing the brackets
-constraint1(X, Xs):-
-    functor(X, P, _),
-    name(P, [44]),
-    conj2List(X, Xs). %44 is for commas
-
-
-%this is to avoid recognizing , as a functor rather than a collection of constraints
-conj2List((A, (B)), [A|R]):-
-    !,
-    conj2List(B,R).
-conj2List((A), [A]).

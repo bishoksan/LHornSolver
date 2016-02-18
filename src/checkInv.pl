@@ -13,7 +13,8 @@ which contains disjunctively  invariants  as assertions together with the initia
 :- use_module(yices2_sat).
 :- use_module(ciao_yices(ciao_yices_2)).
 :- use_module(canonical).
-:- use_module(common).
+
+:- include(common).
 
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
@@ -58,21 +59,7 @@ setOptions(ArgV, Safety) :-
 	  printSmtOutput(user_output, Safety), write(Safety), nl
 	).
 
-% get_options/3 provided by Michael Leuschel
-get_options([],[],[]).
-get_options([X|T],Options,Args) :-
-   (recognised_option(X,Opt,Values) ->
-	  ( append(Values, Rest, T),
-	    RT = Rest,
-	    Options = [Opt|OT], Args = AT
-	  )
-   ;
-	  (
-	    Options = OT,	Args = [X|AT],
-	    RT = T
-	  )
-   ),
-   get_options(RT,OT,AT).
+
 
 recognised_option('-prg',  programO(R),[R]).
 recognised_option('-inv', inv(R),[R]).

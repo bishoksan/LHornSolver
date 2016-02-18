@@ -1,7 +1,10 @@
-:- module(thresholds1,_).
+:- module(thresholds1, [main/1], []).
 
+:- use_module(library(read)).
+:- use_module(library(write)).
+:- use_module(library(dynamic)).
+:- use_module(library(aggregates)).
 :- use_module(setops).
-:- use_module(util).
 :- use_module(canonical).
 :- use_module(linearize).
 :- use_module(library(terms_vars)).
@@ -11,11 +14,16 @@
 :- use_module(input_ppl_clausenum).
 :- use_module(ppl_ops).
 
+:- include(common).
+
 :- dynamic(fact/2).
 :- dynamic(prop/2).
 :- dynamic(abstract/0).
 
 
+recognised_option('-prg',  programO(R),[R]).
+recognised_option('-o',    outputFile(R),[R]).
+recognised_option('-a',    abstract,[]).
 	
 main(ArgV) :-
 	cleanup,
@@ -60,25 +68,6 @@ setOptions(ArgV,File,OutS) :-
 	(member(abstract,Options), assert(abstract); 
 			true).
 
-% get_options/3 provided by Michael Leuschel
-get_options([],[],[]).
-get_options([X|T],Options,Args) :-
-   (recognised_option(X,Opt,Values) ->
-	  ( append(Values, Rest, T),
-	    RT = Rest,
-	    Options = [Opt|OT], Args = AT
-	  )
-   ;
-	  (
-	    Options = OT,	Args = [X|AT],
-	    RT = T
-	  )
-   ),
-   get_options(RT,OT,AT).
-
-recognised_option('-prg',  programO(R),[R]).
-recognised_option('-o',    outputFile(R),[R]).
-recognised_option('-a',    abstract,[]).
 
 
 cleanup :-

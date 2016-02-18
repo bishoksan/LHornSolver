@@ -19,7 +19,7 @@
 :- use_module(ppl_ops).
 :- use_module(scc).
 
-:- use_module(common).
+:- include(common).
 
 :- dynamic(flag/1).
 :- dynamic(currentflag/1).
@@ -550,17 +550,6 @@ initialise :-
 	assert(operatorcount(0)),
 	assert(flag(first)).
 
-% get_options/3 provided by Michael Leuschel
-get_options([],[],[]).
-get_options([X|T],Options,Args) :-
-	( recognised_option(X,Opt,Values) ->
-	    append(Values, Rest, T),
-	    RT = Rest,
-	    Options = [Opt|OT], Args = AT
-	; Options = OT, Args = [X|AT],
-	  RT = T
-	),
-	get_options(RT,OT,AT).
 
 cleanWorkspace :-
 	retractall(flag(_)),
