@@ -14,7 +14,8 @@
 :- use_module(input_ppl_clausenum).
 :- use_module(ppl_ops).
 
-:- include(common).
+:- include(get_options).
+:- use_module(common).
 
 :- dynamic(fact/2).
 :- dynamic(prop/2).

@@ -22,7 +22,8 @@ same as linearsolve but with abstraction refinement, returns solved or unsolved 
 :- use_module(checkInv, [checkInv/2]).
 :- use_module(logen_map).
 
-%:- include(common).
+% :- include(get_options).
+% :- use_module(common).
 
 :- data constrained_fact/2. % constrained_fact(Atom, [Constraint])
 
@@ -189,10 +190,15 @@ verifyCPA(Prog, F_INV, F_WidenPoints, F_Traceterm, F_Threshold,Result) :-
 
 % ---------------------------------------------------------------------------
 
+:- use_module(library(bundle/paths_extra), [fsR/2]).
+
 initialise(ResultDir, F, Dim, F_INV, Interpreter, Annotation, F_WidenPoints, F_Threshold, F_CEX, F_LIN, F_KDIM, F_KDIM_S,F_LOGEN_MAP):-
     Dim=0,
-    Interpreter='/Users/kafle/Desktop/LHornSolver/src/linearSolveProg_k_perm.pl',
-    Annotation= '/Users/kafle/Desktop/LHornSolver/src/linearSolve_k_perm.pl.ann',
+%    Interpreter='/Users/kafle/Desktop/LHornSolver/src/linearSolveProg_k_perm.pl',
+%    Annotation= '/Users/kafle/Desktop/LHornSolver/src/linearSolve_k_perm.pl.ann',
+    fsR(bundle_src('LHornSolver')/src, SrcDir),
+    path_concat(ResultDir, 'linearSolveProg_k_perm.pl', Interpreter),
+    path_concat(SrcDir, 'linearSolve_k_perm.pl.ann', Annotation),
     inv_file(ResultDir, F, F_INV),
     wideningPoints_file(ResultDir, F_WidenPoints),
     threshold_file(ResultDir, F_Threshold),

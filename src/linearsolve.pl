@@ -18,9 +18,7 @@
 :- use_module(insertInvKdim, [main/1]).
 :- use_module(library(system_extra), [mkpath/1]).
 
-:- include(common).
-
-recognised_option(_,_,_). %due to include common.pl
+:- use_module(common).
 
 % stores output of the tool
 logfile('result.txt').

@@ -12,10 +12,8 @@ based on linearSolveProg.pl interpreter
 
 :- use_module(library(process), [process_call/3]).
 
-:- include(common).
+:- use_module(common).
 
-
-recognised_option(_,_,_). %due to include common
 go:-
     recoverOriginalPred('../mc91.pl.lin', 1, '../mc91.pl.lin.rec.pl').
 

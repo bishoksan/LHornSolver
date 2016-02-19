@@ -1,4 +1,4 @@
-:- module(cpascc,_).
+:- module(cpascc_usedinLs,_).
 
 :- use_module(setops).
 :- use_module(canonical).
@@ -11,6 +11,7 @@
 :- use_module(input_ppl).
 :- use_module(ppl_ops).
 :- use_module(scc).
+:- use_module(common).
 
 
 :- dynamic(flag/1).
@@ -34,7 +35,7 @@ go(File) :-
 	go2(File,temp).
 	
 go2(FileIn,FileOut) :-
-	cpascc:main(
+	cpascc_usedinLs:main(
 		['-prg',FileIn,
 		'-widenpoints','widenpoints',
 		'-widenout','widencns',

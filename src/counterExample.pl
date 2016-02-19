@@ -7,10 +7,7 @@
 :- use_module(ppl_ops).
 :- use_module(input_ppl_clausenum).
 
-:- include(common).
-
-
-recognised_option(_,_,_). %due to common.pl include
+:- use_module(common).
 
 main([F, TraceF,Result]) :-
 	unsafe(F,TraceF, Result).

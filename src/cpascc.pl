@@ -19,7 +19,8 @@
 :- use_module(ppl_ops).
 :- use_module(scc).
 
-:- include(common).
+:- include(get_options).
+:- use_module(common).
 
 :- dynamic(flag/1).
 :- dynamic(currentflag/1).

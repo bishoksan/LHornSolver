@@ -1,6 +1,6 @@
 :- module(linearize,[linearize/2,  linear_constraint/1]).
 
-:-include(common).
+:- use_module(common).
 	
 %%%%%%%%%%%%
 %

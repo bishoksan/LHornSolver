@@ -18,6 +18,8 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :- use_module(library(lists)).
 :- use_module(library(strings)).
 
+:- include(get_options).
+:- use_module(common).
 
 %K is the index for which the invaraint is computed
 
@@ -41,29 +43,10 @@ setOptions(ArgV) :-
     (member(kdimIterated(Output),Options), open(Output, write, S), writeIteratedKDim(S), close(S);
 			writeIteratedKDim(user_output)).
 
-
-
-% get_options/3 provided by Michael Leuschel
-get_options([],[],[]).
-get_options([X|T],Options,Args) :-
-   (recognised_option(X,Opt,Values) ->
-	  ( append(Values, Rest, T),
-	    RT = Rest,
-	    Options = [Opt|OT], Args = AT
-	  )
-   ;
-	  (
-	    Options = OT,	Args = [X|AT],
-	    RT = T
-	  )
-   ),
-   get_options(RT,OT,AT).
-
 recognised_option('-prg',  programO(R),[R]).
 recognised_option('-inv', inv(R),[R]).
 recognised_option('-k', dim(R),[R]).
 recognised_option('-o', kdimIterated(R),[R]).
-
 
 saveDim(K):-
     assert(dimension(K)).

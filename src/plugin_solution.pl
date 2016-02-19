@@ -18,8 +18,8 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :- use_module(library(lists)).
 :- use_module(library(strings)).
 
-:- include(common).
-
+:- include(get_options).
+:- use_module(common).
 
 %K is the index for which the invaraint is computed
 
@@ -43,23 +43,6 @@ setOptions(ArgV) :-
     (member(invInserted(Output),Options), open(Output, write, S), writeOutputCls(S), close(S);
 			writeOutputCls(user_output)).
 
-
-
-% get_options/3 provided by Michael Leuschel
-get_options([],[],[]).
-get_options([X|T],Options,Args) :-
-   (recognised_option(X,Opt,Values) ->
-	  ( append(Values, Rest, T),
-	    RT = Rest,
-	    Options = [Opt|OT], Args = AT
-	  )
-   ;
-	  (
-	    Options = OT,	Args = [X|AT],
-	    RT = T
-	  )
-   ),
-   get_options(RT,OT,AT).
 
 recognised_option('-prg',  programO(R),[R]).
 recognised_option('-inv', inv(R),[R]).
@@ -150,9 +133,3 @@ writeBodyAtoms(S,[B1,B2|Bs]) :-
 	nl(S),
 	writeBodyAtoms(S,[B2|Bs]).
 
-convert2num(A,A) :-
-	number(A),
-	!.
-convert2num(A,A1) :-
-	atom(A),
-	atom_number(A,A1).

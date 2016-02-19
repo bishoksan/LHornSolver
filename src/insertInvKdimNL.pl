@@ -15,6 +15,7 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :- use_module(setops).
 :- use_module(common).
 
+:- include(get_options).
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
 :- use_module(library(strings)).
@@ -42,29 +43,10 @@ setOptions(ArgV) :-
     (member(kdimIterated(Output),Options), open(Output, write, S), writeIteratedKDim(S), close(S);
 			writeIteratedKDim(user_output)).
 
-
-
-% get_options/3 provided by Michael Leuschel
-get_options([],[],[]).
-get_options([X|T],Options,Args) :-
-   (recognised_option(X,Opt,Values) ->
-	  ( append(Values, Rest, T),
-	    RT = Rest,
-	    Options = [Opt|OT], Args = AT
-	  )
-   ;
-	  (
-	    Options = OT,	Args = [X|AT],
-	    RT = T
-	  )
-   ),
-   get_options(RT,OT,AT).
-
 recognised_option('-prg',  programO(R),[R]).
 recognised_option('-inv', inv(R),[R]).
 recognised_option('-k', dim(R),[R]).
 recognised_option('-o', kdimIterated(R),[R]).
-
 
 saveDim(K):-
     assert(dimension(K)).
@@ -76,14 +58,12 @@ readInvariants(PFile):-
     saveInv(S,C),
     close(S).
 
-
 saveInv(_, end_of_file):-
     !.
 saveInv(S,(H:-B)):-
     assert(invariant((H,B))),
     read(S,C),
     saveInv(S, C).
-
 
 cleanup:-
     retractall(my_clause(_,_,_)),

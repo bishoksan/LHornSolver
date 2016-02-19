@@ -4,7 +4,8 @@ bundle_packname('LHornSolver').
 bundle_requires([
     core,
     chclibs,
-    ciao_yices
+    ciao_yices,
+    logen
 ]).
 bundle_alias_paths([
     lhornsolver = 'src'

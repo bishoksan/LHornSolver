@@ -80,8 +80,7 @@ solve(P, Result):-
     kdim(K, P, KP),
     cpa(KP, SolutionKP),
     safe(SolutionKP, K),
-
-
+    true. % TODO: ???
 
 %assume there is only one trace in the error trace file
 readInvariants(PFile):-

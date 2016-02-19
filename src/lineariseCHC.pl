@@ -17,23 +17,45 @@ The algorithm is presented in the paper: Solving non-linear Horn clauses using a
 :- use_module(chc2logen).
 :- use_module(plugin_solution, [main/1]).
 
-:- include(common).
-
+:- include(get_options).
+:- use_module(common).
 
 /*
 go:-
     linearise('../example/mc91.pl', [], 'linearSolveProg_k_perm.pl', 'linearSolve_k_perm.pl.ann', 0, '../mc91.lin.pl').
 */
 
+logen_executable(Logen) :-
+	find_bundle_cmd(logen, Logen0),
+	!,
+	Logen = Logen0.
+logen_executable(_Logen) :-
+	format(user_error, "ERROR: logen does not seem to be installed. Please follow usage instructions to install it.~n~n", []),
+	throw(error_logen_not_found). % TODO: throw exception?
 
 % ---------------------------------------------------------------------------
 
-% (assume that Cogen is in the same directory as the executable)
-cogen_executable(Cogen) :-
+:- use_module(engine(internals), [top_ciao_path/1]).
+:- use_module(library(system), [file_exists/1]).
+
+% Lookup a bundle command (either in the build/bin directory of top
+% CIAOPATH, or the current executable directory)
+find_bundle_cmd(Cmd, Path) :-
+	% Try find Cmd in the same directory as the executable
 	current_executable(ExecPath),
-    display(ExecPath),
 	path_split(ExecPath, ExecDir, _),
-	path_concat(ExecDir, 'logen/cogen', Cogen).
+	path_concat(ExecDir, Cmd, Path0),
+	file_exists(Path0),
+	!,
+	Path = Path0.
+find_bundle_cmd(Cmd, Path) :-
+	% Otherwise look in <CIAOPATH>/build/bin 
+	top_ciao_path(Top),
+	path_concat(Top, 'build/bin', ExecDir),
+	path_concat(ExecDir, Cmd, Path0),
+	file_exists(Path0),
+	!,
+	Path = Path0.
 
 % ---------------------------------------------------------------------------
 
@@ -61,23 +83,20 @@ pluginSolution(Inv, Prog, K,  P1):-
 	plugin_solution:main(['-prg', Prog, '-inv', Inv, '-k', Ka, '-o', P1]).
 
 linearisePE(In, Interpreter, Annotation, StackSize, PLin):-
-    atom_concat(In, '.logen', InLogen),
-    chc2logen:main([In, InLogen]),
-	OutAnn = '/Users/kafle/Desktop/LHornSolver/src/linearSolveProg_k_perm.pl.ann',
+	atom_concat(In, '.logen', InLogen),
+	chc2logen:main([In, InLogen]),
+	% OutAnn = '/Users/kafle/Desktop/LHornSolver/src/linearSolveProg_k_perm.pl.ann',
+	atom_concat(Interpreter, '.ann', OutAnn),
 	copy_file(InLogen, OutAnn, [overwrite]),
 	copy_file(Annotation, OutAnn, [append]),
 	% logen goal
-    number_atom(StackSize, Goal),
+	number_atom(StackSize, Goal),
 	atom_concat(['go(', Goal, ')'], LogenGoal),
 	% logen
-    %cogen_executable(Logen),
-    %write(PLin), nl,
-    %write(LogenGoal ), nl,
-	process_call('logen/cogen', ['--logen_dir', '/Users/kafle/Desktop/LHornSolver/src/logen', '-np', Interpreter, LogenGoal],
-	             [stdout(file(PLin))]),
-    process_call(path('rm'), [InLogen],[]),
-    process_call(path('rm'), [OutAnn],[]).
-
+	logen_executable(Logen),
+	process_call(Logen, ['-np', Interpreter, LogenGoal], [stdout(file(PLin))]),
+	process_call(path('rm'), [InLogen],[]),
+	process_call(path('rm'), [OutAnn],[]).
 
 % formula: Size=(max. nr of body atoms in the program -1)* program_dimension + 1
 
