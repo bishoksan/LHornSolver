@@ -35,6 +35,8 @@ logen_executable(_Logen) :-
 
 % ---------------------------------------------------------------------------
 
+% TODO: contribute this code to Ciao libraries
+
 :- use_module(engine(internals), [top_ciao_path/1]).
 :- use_module(library(system), [file_exists/1]).
 
