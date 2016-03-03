@@ -1,6 +1,6 @@
 logen(go/1,go(A)) :-
-        logen(unfold,getAtom(B)),
-        logen(memo,solve([B],A,1)).
+        %logen(unfold,getAtom(B)),
+        logen(memo,solve([false],A,1)).
 logen(solve/3,solve([C|D],A,B)) :-
         logen(unfold,hornClause(C,E,F)),
         logen(unfold,solveConstraints(E)),
@@ -29,11 +29,12 @@ logen(perm/2,perm([],[])).
 logen(perm/2,perm(A,[B|C])) :-
         logen(unfold,select(B,A,D)),
         logen(unfold,perm(D,C)).
-
+/*
 logen(getAtom/1,getAtom(A)) :-
         logen(unfold,hornClause(B,_,_)),
         logen(call,functor(B,C,D)),
         logen(call,functor(A,C,D)).
+*/
 
 
 :- type

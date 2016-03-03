@@ -43,8 +43,7 @@ solve(InP, Result):-
     mktempdir_in_tmp('lHornSolver-XXXXXXXX', ResultDir),
     write('temp dir: '), nl,
     write(ResultDir), nl,
-    write('initialising ....'), nl,
-     path_basename(InP, Orig_F),
+    path_basename(InP, Orig_F),
     initialise(ResultDir, Orig_F, Dim, F_INV, Interpreter, Annotation, F_WidenPoints, F_Threshold, F_CEX, F_LIN, F_KDIM, F_KDIM_S,F_LOGEN_MAP),
     write('abstract refine ....'),  nl,
     statistics(runtime,[START|_]),
@@ -52,7 +51,7 @@ solve(InP, Result):-
     statistics(runtime,[END|_]),
     DIFF is END - START,
     %remove the directory of intermediate files
-    %rmtempdir(ResultDir),
+    rmtempdir(ResultDir),
     printLHornSolverOutput(LogS,Orig_F, Result, Dim2, DIFF),
     close(LogS).
     %write('the program '), write(InP), write(' is '), write(Result), nl.
@@ -61,13 +60,14 @@ abstract_refine(InP, F_INV, Dim, Interpreter, Annotation, F_WidenPoints, F_Thres
     write('Iteration: '), write(Dim), nl,
     write('linearising ....'), nl,
     linearise(InP, F_INV,Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin),
-    write('solving linearly ....'), nl,
+    write('recovering original pred ....'), nl,
     recoverOriginalPred(PLin, Dim, F_LOGEN_MAP),
     (Dim>0 ->
         read_constrained_facts(F_INV) %facts from the previous iteration
     ;
         true
     ),
+    write('solving linearly ....'), nl,
     solve_linear(F_LOGEN_MAP, Status, F_INV, F_WidenPoints, F_Threshold, F_CEX),
     (Status=safe ->
         write('checking inductiveness ....'), nl,
@@ -186,6 +186,7 @@ verifyCPA(Prog, F_INV, F_WidenPoints, F_Traceterm, F_Threshold,Result) :-
     cpascc:main(['-prg', Prog, '-withwut', 'bounded', '-wfunc', 'h79', '-widenpoints',F_WidenPoints, '-threshold', F_Threshold, '-o', F_INV, '-cex', F_Traceterm]),
     write('checking safety ......'), nl,
     counterExample:main([Prog, F_Traceterm, Result]),
+    write('-------- CEX result -------'), nl,
     write(Result), nl.
 
 % ---------------------------------------------------------------------------
@@ -194,8 +195,6 @@ verifyCPA(Prog, F_INV, F_WidenPoints, F_Traceterm, F_Threshold,Result) :-
 
 initialise(ResultDir, F, Dim, F_INV, Interpreter, Annotation, F_WidenPoints, F_Threshold, F_CEX, F_LIN, F_KDIM, F_KDIM_S,F_LOGEN_MAP):-
     Dim=0,
-%    Interpreter='/Users/kafle/Desktop/LHornSolver/src/linearSolveProg_k_perm.pl',
-%    Annotation= '/Users/kafle/Desktop/LHornSolver/src/linearSolve_k_perm.pl.ann',
     fsR(bundle_src('LHornSolver')/src, SrcDir),
     path_concat(ResultDir, 'linearSolveProg_k_perm.pl', Interpreter),
     path_concat(SrcDir, 'linearSolve_k_perm.pl.ann', Annotation),

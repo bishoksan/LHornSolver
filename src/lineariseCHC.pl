@@ -12,13 +12,14 @@ The algorithm is presented in the paper: Solving non-linear Horn clauses using a
 :- use_module(library(process), [process_call/3]).
 :- use_module(library(terms), [atom_concat/2]).
 :- use_module(library(pathnames), [path_basename/2, path_concat/3, path_split/3]).
+
 :- use_module(load_simple).
-:- use_module(kdim1).
+:- use_module(kdim).
 :- use_module(chc2logen).
 :- use_module(plugin_solution, [main/1]).
-
-:- include(get_options).
 :- use_module(common).
+
+
 
 /*
 go:-
@@ -62,19 +63,17 @@ find_bundle_cmd(Cmd, Path) :-
 % ---------------------------------------------------------------------------
 
 
-recognised_option(_,_,_). %due to include common.pl
+%recognised_option(_,_,_). %due to include common.pl
 
 linearise(P, S, Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin):-
     number_atom(Dim, Ka),
-    %KdimProg='kdimProg.pl',
     write('generating k-dim program '), nl,
-    kdim1:main(['-prg', P, '-k', Ka, '-o', F_KDIM]),
+    kdim:main(['-prg', P, '-k', Ka, '-o', F_KDIM]),
     (Dim=0 ->
         linearisePE(F_KDIM, Interpreter, Annotation, 1, PLin)
     ;
         stackSize(P, Dim, Size),
         write('plugin solution  '),nl,
-        %P1='kdimProgInsInv.pl',
         pluginSolution(S, F_KDIM, Dim, F_KDIM_S),
         write('linearise PE '), nl,
         linearisePE(F_KDIM_S, Interpreter, Annotation, Size, PLin)
@@ -87,7 +86,6 @@ pluginSolution(Inv, Prog, K,  P1):-
 linearisePE(In, Interpreter, Annotation, StackSize, PLin):-
 	atom_concat(In, '.logen', InLogen),
 	chc2logen:main([In, InLogen]),
-	% OutAnn = '/Users/kafle/Desktop/LHornSolver/src/linearSolveProg_k_perm.pl.ann',
 	atom_concat(Interpreter, '.ann', OutAnn),
 	copy_file(InLogen, OutAnn, [overwrite]),
 	copy_file(Annotation, OutAnn, [append]),
@@ -96,9 +94,10 @@ linearisePE(In, Interpreter, Annotation, StackSize, PLin):-
 	atom_concat(['go(', Goal, ')'], LogenGoal),
 	% logen
 	logen_executable(Logen),
+    %logen only takes .ann files not the interpreter but the extension .ann is not needed to pass
 	process_call(Logen, ['-np', Interpreter, LogenGoal], [stdout(file(PLin))]),
-	process_call(path('rm'), [InLogen],[]),
-	process_call(path('rm'), [OutAnn],[]).
+	process_call(path('rm'), [InLogen],[]).
+	%process_call(path('rm'), [OutAnn],[]).
 
 % formula: Size=(max. nr of body atoms in the program -1)* program_dimension + 1
 

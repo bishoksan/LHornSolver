@@ -56,7 +56,9 @@ checkTrace([B|Bs],Cs,[T|Ts]) :-
 	separate_constraints(Bs1,Cs1,Bs2),
 	append(Bs2,Bs,Bs3),
 	append(Cs1,Cs,Cs2),
+    %write(Cs2), nl,
 	checkSat(Cs2),
+    %write('after sat check'), nl,
 	append(Ts1,Ts,Ts2),
 	checkTrace(Bs3,Cs2,Ts2).
 	
