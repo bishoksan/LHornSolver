@@ -2,10 +2,14 @@
 
 :- use_module(library(read)).
 :- use_module(library(write)).
+:- use_module(library(terms_vars)).
 :- use_module(library(lists)).
+
 :- use_module(linearize).
 :- use_module(ppl_ops).
 :- use_module(input_ppl_clausenum).
+:- use_module(yices2_sat).
+:- use_module(ciao_yices(ciao_yices_2)).
 
 :- use_module(common).
 
@@ -37,37 +41,38 @@ checkCounterExample(no,_, Result) :-
 	!,
 	Result=safe.
 checkCounterExample(Cex,F, Result) :-
-	start_ppl,
+   %write('cex is '), write(Cex), nl,
 	load_file(F),
-	( checkTrace([false],[],[Cex])
-	; checkTrace([false_ans],[],[Cex])
+	( getCeXConstraint([false],[],[Cex], Cs), checkYicesSat(Cs)
+
+	; getCeXConstraint([false_ans],[],[Cex], Cs), checkYicesSat(Cs)
 	),
 	!,
-	end_ppl,
 	Result=unsafe.
 checkCounterExample(_,_, Result) :-
-	end_ppl,
-	Result=unknown.
-	
-checkTrace([],_,_).
-checkTrace([B|Bs],Cs,[T|Ts]) :-
+	yices_exit,
+	Result=spurious.
+
+
+%the last argument is a set of constraint corresponding to a counterexample T
+getCeXConstraint([],Cs,_, Cs).
+getCeXConstraint([B|Bs],Cs,[T|Ts], Cs3) :-
 	T =..[C|Ts1],
 	my_clause(B,Bs1,C),
 	separate_constraints(Bs1,Cs1,Bs2),
 	append(Bs2,Bs,Bs3),
 	append(Cs1,Cs,Cs2),
-    %write(Cs2), nl,
-	checkSat(Cs2),
-    %write('after sat check'), nl,
 	append(Ts1,Ts,Ts2),
-	checkTrace(Bs3,Cs2,Ts2).
-	
-checkSat(Cs) :-
-	\+ nonSat(Cs).
+	getCeXConstraint(Bs3,Cs2,Ts2, Cs3).
 
-nonSat(Cs) :-
-	numbervars(Cs,0,_),
-	\+ satisfiable(Cs,_).
-	
+checkYicesSat(Formula):-
+    varset(Formula, Vs),
+    numbervars(Formula, 0, _),
+    makeYicesIntVars(Vs, VReals),
+    yices_init,
+    yices_sat(Formula,VReals),
+    yices_exit.
+
+
 
 	

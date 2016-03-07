@@ -101,7 +101,7 @@ abstract_refine(InP, F_INV, Dim, Interpreter, Annotation, F_WidenPoints, F_Thres
     ).
 
 
-% Status=(safe, unsafe, unknown)
+% Status=(safe, unsafe, spurious)
 solve_linear(PLin, Status, F_INV, F_WidenPoints, F_Threshold, CExLinear):-
     verifyCPA(PLin, F_INV, F_WidenPoints, CExLinear, F_Threshold,Status).
 
@@ -176,7 +176,7 @@ sizeCF(N):-
 
 
 % ---------------------------------------------------------------------------
-% Analysis using CPA, outputs invariats and cex if any and status=(safe, unsafe, unknown)
+% Analysis using CPA, outputs invariats and cex if any and Result=(safe, unsafe, spurious)
 % ---------------------------------------------------------------------------
 
 verifyCPA(Prog, F_INV, F_WidenPoints, F_Traceterm, F_Threshold,Result) :-
@@ -186,7 +186,7 @@ verifyCPA(Prog, F_INV, F_WidenPoints, F_Traceterm, F_Threshold,Result) :-
     cpascc:main(['-prg', Prog, '-withwut', 'bounded', '-wfunc', 'h79', '-widenpoints',F_WidenPoints, '-threshold', F_Threshold, '-o', F_INV, '-cex', F_Traceterm]),
     write('checking safety ......'), nl,
     counterExample:main([Prog, F_Traceterm, Result]),
-    write('-------- CEX result -------'), nl,
+    write('cex is '), 
     write(Result), nl.
 
 % ---------------------------------------------------------------------------

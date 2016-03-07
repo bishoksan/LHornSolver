@@ -175,9 +175,6 @@ formulaCls([CId|Cls],F, Formula):-
 clauses(Cls):-
     findall(Id, my_clause(_,_,Id), Cls).
 
-makeRealVars([], []).
-makeRealVars([V|Vs], [(V,int)|VReals]):-
-    makeRealVars(Vs, VReals).
 
 
 % outputs
@@ -188,7 +185,7 @@ printSmtOutput(_, Safety):-
     formulaCls(Cls, [false], Formula),
     varset(Formula, Vs),
     numbervars(Formula, 0, _),
-    makeRealVars(Vs, VReals),
+    makeYicesIntVars(Vs, VReals),
     %write('fromula n smt '), write(Formula), write(' '),nl,
     %expr2yices(Formula, SmtFormula),
     yices_init,

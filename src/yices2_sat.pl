@@ -8,7 +8,7 @@
 yices_sat(E,Vars) :-
 	expr2yices(E,Y),
 	!,
-	write_string(Y),nl,
+	%write_string(Y),nl,
 	declareVars(Vars),
 	yices_context(Ctx),
 	yices_parse_term(Y,T),
@@ -155,3 +155,7 @@ reportErrorState :-
 	yices_error_string(E),
 	write_string(E),
 	nl.
+
+makeYicesIntVars([], []).
+makeYicesIntVars([V|Vs], [(V,int)|VReals]):-
+    makeYicesIntVars(Vs, VReals).
