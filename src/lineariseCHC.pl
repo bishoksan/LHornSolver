@@ -68,10 +68,7 @@ find_bundle_cmd(Cmd, Path) :-
 linearise(P, S, Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin):-
     number_atom(Dim, Ka),
     write('generating k-dim program '), nl,
-    KDimTmp='kdim.pl',
-    kdim:main(['-prg', P, '-k', Ka, '-o', KDimTmp]),
-    addTopClause(KDimTmp, Ka, F_KDIM), %add a rule false:- 'false[ka]'
-    process_call(path('rm'), [KDimTmp],[]),
+    kdim:main(['-prg', P, '-k', Ka, '-o', F_KDIM]),
     (Dim=0 ->
         linearisePE(F_KDIM, Interpreter, Annotation, 1, PLin)
     ;
@@ -113,17 +110,4 @@ stackSize(F, Dimension, Size):-
 max_nr_of_body_atoms(Index):-
     findall(Nr, (my_clause(_,B,_), separate_constraints(B, _, Bs), length(Bs, Nr)), SizeList),
     max_member(SizeList, Index).
-
-%add a rule false:- 'false[ka]'
-addTopClause(KDimTmp, K, F_KDIM):-
-    atom_concat(K,']',AK1),
-    atom_concat('[',AK1,Suff),
-    atom_concat(false,Suff,P1),
-    copy_file(KDimTmp, F_KDIM, [overwrite]),
-    open(F_KDIM, append, S),
-    write(S, false),
-    write(S, ' :- '),
-    writeq(S, P1),
-    write(S, '.'),
-    close(S).
 
