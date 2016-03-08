@@ -4,6 +4,10 @@ solves a set of non-linear Horn clauses using only a linear solver
 same as linearsolve but with abstraction refinement, returns solved or unsolved or unknown (unknown comes as a result of not using a abstraction refinement based linear solver) if terminates
 */
 
+/*
+TODO: compute the number of non-linear clauses in the body once
+*/
+
 :- module(lhornsolver, _).
 
 
@@ -51,7 +55,7 @@ solve(InP, Result):-
     statistics(runtime,[END|_]),
     DIFF is END - START,
     %remove the directory of intermediate files
-    rmtempdir(ResultDir),
+    %rmtempdir(ResultDir),
     printLHornSolverOutput(LogS,Orig_F, Result, Dim2, DIFF),
     close(LogS).
     %write('the program '), write(InP), write(' is '), write(Result), nl.
