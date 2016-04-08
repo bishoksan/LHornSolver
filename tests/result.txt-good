@@ -12,3 +12,4 @@ LHornSolver: {Program: parity.nts.pl, Safety: unknown, Iteration: 1, Time: 1689.
 LHornSolver: {Program: remainder.nts.pl, Safety: unsolved, Iteration: 1, Time: 3827.923 millisecs.} 
 LHornSolver: {Program: running.nts.pl, Safety: unknown, Iteration: 1, Time: 456.44 millisecs.} 
 LHornSolver: {Program: triple.nts.pl, Safety: unknown, Iteration: 1, Time: 444.877 millisecs.} 
+LHornSolver: {Program: revlen.pl, Safety: solved, Iteration: 1, Time: 111.254 millisecs.} 
