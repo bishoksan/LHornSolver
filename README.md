@@ -56,11 +56,6 @@ notation: e.g. `h(X):- C, b1(X1),...,bn(Xn).`
 
 ## Generate a standalone binary distribution
 
-```sh
-mkdir dist; cd dist
-ciaoc_sdyn ../src/lhornsolver
-```
-
 1. `mkdir dist; cd dist`
 2. `ciaoc_sdyn ../src/lhornsolver`
 
