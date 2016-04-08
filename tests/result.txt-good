@@ -1,0 +1,13 @@
+LHornSolver: {Program: addition.nts.pl, Safety: solved, Iteration: 1, Time: 399.891 millisecs.} 
+LHornSolver: {Program: bfprt.nts.pl, Safety: solved, Iteration: 2, Time: 2911.652 millisecs.} 
+LHornSolver: {Program: binarysearch.nts.pl, Safety: solved, Iteration: 1, Time: 834.946 millisecs.} 
+LHornSolver: {Program: buildheap.nts.pl, Safety: unknown, Iteration: 1, Time: 675.763 millisecs.} 
+LHornSolver: {Program: countZero.nts.pl, Safety: solved, Iteration: 1, Time: 624.441 millisecs.} 
+LHornSolver: {Program: fib.pl, Safety: solved, Iteration: 0, Time: 9.665999999999997 millisecs.} 
+LHornSolver: {Program: identity.nts.pl, Safety: solved, Iteration: 1, Time: 490.0649999999999 millisecs.} 
+LHornSolver: {Program: merge.nts.pl, Safety: solved, Iteration: 1, Time: 1209.392 millisecs.} 
+LHornSolver: {Program: palindrome.nts.pl, Safety: solved, Iteration: 1, Time: 457.776 millisecs.} 
+LHornSolver: {Program: parity.nts.pl, Safety: unknown, Iteration: 1, Time: 1135.761 millisecs.} 
+LHornSolver: {Program: remainder.nts.pl, Safety: unsolved, Iteration: 1, Time: 2754.292 millisecs.} 
+LHornSolver: {Program: running.nts.pl, Safety: unknown, Iteration: 2, Time: 1951.692 millisecs.} 
+LHornSolver: {Program: triple.nts.pl, Safety: unknown, Iteration: 2, Time: 2048.609 millisecs.} 
