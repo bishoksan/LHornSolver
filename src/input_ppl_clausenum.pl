@@ -2,7 +2,7 @@
 
 :- dynamic my_clause/3.
 
-:- use_module(duplVar).
+:- use_module(chclibs(common), [writeAtomEq/4]).
 :- use_module(library(lists)).
 
 load_file(F) :-
