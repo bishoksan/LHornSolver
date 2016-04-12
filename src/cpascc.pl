@@ -19,7 +19,7 @@
 :- use_module(ppl_ops).
 :- use_module(scc).
 
-:- include(get_options).
+:- include(chclibs(get_options)).
 :- use_module(common).
 
 :- dynamic(flag/1).

@@ -26,7 +26,7 @@ TODO: compute the number of non-linear clauses in the body once
 :- use_module(checkInv, [checkInv/2]).
 :- use_module(logen_map).
 
-% :- include(get_options).
+% :- include(chclibs(get_options)).
 % :- use_module(common).
 
 :- data constrained_fact/2. % constrained_fact(Atom, [Constraint])

@@ -14,37 +14,23 @@ set -e
 
 solver=$CIAOPATH/build/bin/lhornsolver
 
-testdir="../../RAHFT/examples" # TODO: Using examples from RAHFT!
+testdir="../examples"
 tests="\
 addition.nts.pl \
 bfprt.nts.pl \
 binarysearch.nts.pl \
 buildheap.nts.pl \
+coins.pl \
 countZero.nts.pl \
-fib.pl \
 identity.nts.pl \
+mc91.pl \
 merge.nts.pl \
 palindrome.nts.pl \
 parity.nts.pl \
 remainder.nts.pl \
+revlen.pl \
 running.nts.pl \
 triple.nts.pl"
-# tests="\
-# addition.nts.pl \
-# bfprt.nts.pl \
-# binarysearch.nts.pl \
-# buildheap.nts.pl \
-# coins.nts.pl \
-# countZero.nts.pl \
-# fib.pl \
-# identity.nts.pl \
-# mc91.pl \
-# merge.nts.pl \
-# palindrome.nts.pl \
-# parity.nts.pl \
-# remainder.nts.pl \
-# running.nts.pl \
-# triple.nts.pl"
 
 results="result.txt"
 
@@ -52,6 +38,7 @@ cd "$_base"
 
 rm -f "$results"
 for i in $tests; do
+    echo "### SOLVING $i ###"
     $solver "$testdir/$i"
 done
 

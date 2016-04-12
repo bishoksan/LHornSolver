@@ -14,7 +14,7 @@ which contains disjunctively  invariants  as assertions together with the initia
 :- use_module(ciao_yices(ciao_yices_2)).
 :- use_module(canonical).
 
-:- include(get_options).
+:- include(chclibs(get_options)).
 :- use_module(common).
 
 :- use_module(library(terms_vars)).

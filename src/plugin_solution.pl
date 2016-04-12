@@ -18,7 +18,7 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :- use_module(library(lists)).
 :- use_module(library(strings)).
 
-:- include(get_options).
+:- include(chclibs(get_options)).
 :- use_module(common).
 
 %K is the index for which the invaraint is computed
