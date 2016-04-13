@@ -12,7 +12,7 @@
 :- use_module(library(lists)).
 :- use_module(timer_ciao).
 :- use_module(input_ppl_clausenum).
-:- use_module(ppl_ops).
+:- use_module(chclibs(ppl_ops)).
 
 :- include(chclibs(get_options)).
 :- use_module(common).

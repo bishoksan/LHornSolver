@@ -10,7 +10,7 @@ which contains disjunctively  invariants  as assertions together with the initia
 
 :- use_module(linearize).
 :- use_module(input_ppl_clausenum).
-:- use_module(yices2_sat).
+:- use_module(chclibs(yices2_sat)).
 :- use_module(ciao_yices(ciao_yices_2)).
 :- use_module(canonical).
 

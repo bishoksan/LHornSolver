@@ -6,9 +6,9 @@
 :- use_module(library(lists)).
 
 :- use_module(linearize).
-:- use_module(ppl_ops).
+:- use_module(chclibs(ppl_ops)).
 :- use_module(input_ppl_clausenum).
-:- use_module(yices2_sat).
+:- use_module(chclibs(yices2_sat)).
 :- use_module(ciao_yices(ciao_yices_2)).
 
 :- use_module(common).

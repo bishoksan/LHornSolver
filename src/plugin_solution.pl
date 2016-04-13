@@ -11,7 +11,7 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :- use_module(input_ppl_clausenum).
 :- use_module(canonical).
 
-:- use_module(ppl_ops).
+:- use_module(chclibs(ppl_ops)).
 :- use_module(setops).
 
 :- use_module(library(terms_vars)).

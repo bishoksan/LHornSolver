@@ -2,6 +2,8 @@
 
 % It also generates path FTA, modified by Bish on 21-01-2016
 
+% TODO: findCounterexampleTrace/1 is patched w.r.t. version in chclibs!
+
 :- use_module(library(read)).
 :- use_module(library(write)).
 :- use_module(library(aggregates)).
@@ -9,15 +11,15 @@
 
 :- use_module(setops).
 :- use_module(canonical).
-:- use_module(wto).
+:- use_module(chclibs(wto)).
 :- use_module(linearize).
 :- use_module(library(terms_vars)).
 :- use_module(library(ppl)).
 :- use_module(library(lists)).
 :- use_module(timer_ciao).
-:- use_module(input_ppl).
-:- use_module(ppl_ops).
-:- use_module(scc).
+:- use_module(chclibs(input_ppl)).
+:- use_module(chclibs(ppl_ops)).
+:- use_module(chclibs(scc)).
 
 :- include(chclibs(get_options)).
 :- use_module(common).
