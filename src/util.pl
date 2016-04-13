@@ -22,6 +22,3 @@ constraint(X=<Y, X=<Y).
 constraint(X<Y, X<Y).
 constraint(true, 1=1).
 
-dummyCList([],[]).
-dummyCList([C|Cs],[C=C|Cs1]) :-
-	   dummyCList(Cs,Cs1).

@@ -1,12 +1,9 @@
-/*
-Takes as input a set of Horn clauses and invariants generated for a K-dim program and generates an output file
-which contains disjunctively  invariants  as assertions together with the initial set of Clauses
-*/
+:- module(checkInv, [main/1, checkInv/2]).
 
-:-module(checkInv, [main/1, checkInv/2]).
-
-:-dynamic(invariant/1).
-:-dynamic(disjInvariant/1).
+% Takes as input a set of Horn clauses and invariants generated for a
+% K-dim program and generates an output file which contains
+% disjunctively invariants as assertions together with the initial set
+% of Clauses
 
 :- use_module(chclibs(linearize)).
 :- use_module(chclibs(input_ppl_clausenum)).
@@ -21,6 +18,8 @@ which contains disjunctively  invariants  as assertions together with the initia
 :- use_module(library(lists)).
 :- use_module(library(strings)).
 
+:- dynamic(invariant/1).
+:- dynamic(disjInvariant/1).
 
 go2:-
     main(['-prg', '/Users/kafle/Desktop/mctest/mc91.pl', '-inv', '/Users/kafle/Desktop/mctest/mc91_1.pl.lin.cha.pl']), nl.
@@ -70,19 +69,19 @@ recognised_option('-smt', smt(R),[R]).
 
 %assume there is only one trace in the error trace file
 readInvariants(PFile):-
-    open(PFile, read, S),
-    read(S, C),
-    saveInv(S,C),
-    close(S).
+	open(PFile, read, S),
+	read(S, C),
+	saveInv(S,C),
+	close(S).
 
 
 saveInv(_, end_of_file):-
-    !.
+	!.
 saveInv(S,(H:-B)):-
-    renameToOriginalPred(H, H1),
-    assert(invariant((H1,B))),
-    read(S,C),
-    saveInv(S, C).
+	renameToOriginalPred(H, H1),
+	assert(invariant((H1,B))),
+	read(S,C),
+	saveInv(S, C).
 
 
 renameToOriginalPred(H, H1):-
@@ -101,135 +100,130 @@ renameToOriginalPred(H, H1):-
 
 %do not collect false
 predicates(Ps):-
-    (setof(P/N, [H,C]^(invariant((H,C)), functor(H,P,N), P \== false), Ps)-> true; Ps=[]).
+	(setof(P/N, [H,C]^(invariant((H,C)), functor(H,P,N), P \== false), Ps)-> true; Ps=[]).
 
 collectDisjInv([]).
 collectDisjInv([P/N|L]):-
-    functor(H,P,N),
-    findall((H,C), invariant((H,C)), Invariants), %invariants is a list of a list, depends on where we get it from
-    collectOnlyConstraints(Invariants, H1, Constraints),
-    saveDisjInv(H1, Constraints),
-    collectDisjInv(L).
+	functor(H,P,N),
+	findall((H,C), invariant((H,C)), Invariants), %invariants is a list of a list, depends on where we get it from
+	collectOnlyConstraints(Invariants, H1, Constraints),
+	saveDisjInv(H1, Constraints),
+	collectDisjInv(L).
 
 collectOnlyConstraints([], _, []).
 collectOnlyConstraints([(H,I)|Invs], H, [I|Cs]):-
-    !,
-    collectOnlyConstraints(Invs, H, Cs).
+	!,
+	collectOnlyConstraints(Invs, H, Cs).
 
 %at least one element will be there, it is guranteed since H comes from invariant
 saveDisjInv(H, Invariants):-
-    listofList2Disj(Invariants, DisjInvariants),
-    %melt((H, DisjInvariants), (H1, DisjInvariants1)),
-    assert(disjInvariant((H, [DisjInvariants]))).
-
+	listofList2Disj(Invariants, DisjInvariants),
+	%melt((H, DisjInvariants), (H1, DisjInvariants1)),
+	assert(disjInvariant((H, [DisjInvariants]))).
 
 
 cleanup:-
-    retractall(my_clause(_,_,_)),
-    retractall(invariant(_)),
-    retractall(disjInvariant(_)).
+	retractall(my_clause(_,_,_)),
+	retractall(invariant(_)),
+	retractall(disjInvariant(_)).
 
 
 formDisjInv:-
-    predicates(Ps),
-    collectDisjInv(Ps).
+	predicates(Ps),
+	collectDisjInv(Ps).
 
 
 collectBodyFormula([], []).
 collectBodyFormula([B|Bs], Interpolants):-
-    (disjInvariant((B,I1)) ->
-        I=I1
-    ;
-        I=[false]
-    ),
-    collectBodyFormula(Bs, BIs),
-    append(I, BIs, Interpolants).
+	( disjInvariant((B,I1)) ->
+	    I=I1
+	;
+	    I=[false]
+	),
+	collectBodyFormula(Bs, BIs),
+	append(I, BIs, Interpolants).
 
 getHeadFormula(B, HF):-
-    (disjInvariant((B, HF))->
-        true
-    ;
-        HF=[false]
-    ).
+	( disjInvariant((B, HF))->
+	    true
+	;
+	    HF=[false]
+	).
 
 getNegHeadFormula(B, HF1):-
-    (disjInvariant((B, [HF]))->
-        HF1=[neg(HF)]
-    ;
-        HF1=[true]
-    ).
+	( disjInvariant((B, [HF])) ->
+	    HF1=[neg(HF)]
+	;
+	    HF1=[true]
+	).
 
 
 formulaCls([],F, F).
-
 formulaCls([CId|Cls],F, Formula):-
-    my_clause(H, B,CId),
-    separate_constraints(B, Cs, Bs),
-    collectBodyFormula(Bs, BF),
-    append(Cs, BF, BFs),
-    getNegHeadFormula(H, HF),
-    append(BFs, HF, Formula1),
-    formulaCls(Cls,[(Formula1;F)], Formula).
-    %formulaCls(Cls,[(BFs -> HF)|F], Formula).
+	my_clause(H, B,CId),
+	separate_constraints(B, Cs, Bs),
+	collectBodyFormula(Bs, BF),
+	append(Cs, BF, BFs),
+	getNegHeadFormula(H, HF),
+	append(BFs, HF, Formula1),
+	formulaCls(Cls,[(Formula1;F)], Formula).
+        %formulaCls(Cls,[(BFs -> HF)|F], Formula).
 
 clauses(Cls):-
-    findall(Id, my_clause(_,_,Id), Cls).
-
-
+	findall(Id, my_clause(_,_,Id), Cls).
 
 % outputs
 
 printSmtOutput(_, Safety):-
-    formDisjInv,
-    clauses(Cls),
-    formulaCls(Cls, [false], Formula),
-    varset(Formula, Vs),
-    numbervars(Formula, 0, _),
-    makeYicesIntVars(Vs, VReals),
-    %write('fromula n smt '), write(Formula), write(' '),nl,
-    %expr2yices(Formula, SmtFormula),
-    yices_init,
-    (yices_unsat(Formula,VReals)->
-        %the original program is safe, there is no interpretation of the predicates which can satistify all clauses
-        Safety=safe
-        %write(S, ' % The safe inductive invariants are '),
-        %nl(S),
-        %writeInvs(S),
-        %write(S, ' % for the program '), nl(S)
-        %writeCls(S),
-    ;
-        Safety=unknown
-        %write(S, 'The following is not an inductive invariant '),
-        %nl(S),
-        %writeInvs(S)
-        %write(S, ' % for the program '), nl(S)
-        %writeCls(S),
-    ),
-    yices_exit.
-    %write_string(SmtFormula).
+	formDisjInv,
+	clauses(Cls),
+	formulaCls(Cls, [false], Formula),
+	varset(Formula, Vs),
+	numbervars(Formula, 0, _),
+	makeYicesIntVars(Vs, VReals),
+	%write('fromula n smt '), write(Formula), write(' '),nl,
+	%expr2yices(Formula, SmtFormula),
+	yices_init,
+	( yices_unsat(Formula,VReals)->
+	    %the original program is safe, there is no interpretation of the predicates which can satistify all clauses
+	    Safety=safe
+            %write(S, ' % The safe inductive invariants are '),
+            %nl(S),
+            %writeInvs(S),
+            %write(S, ' % for the program '), nl(S)
+            %writeCls(S),
+	; Safety=unknown
+          %write(S, 'The following is not an inductive invariant '),
+          %nl(S),
+          %writeInvs(S)
+          %write(S, ' % for the program '), nl(S)
+          %writeCls(S),
+	),
+	yices_exit.
+        % write_string(SmtFormula).
 
 printQarmcOutput(S):-
-    formDisjInv,
-    writeInvs(S),
-    writeCls(S).
+	formDisjInv,
+	writeInvs(S),
+	writeCls(S).
 
 writeInvs(S):-
-    disjInvariant((H,[I])),
-    numbervars((H,I), 0, _),
-    write(S, H),
-    write(S, ' =:= '),
-    write(S, I),
-    write(S, '.'),
-    nl(S),
-    fail.
+	disjInvariant((H,[I])),
+	numbervars((H,I), 0, _),
+	write(S, H),
+	write(S, ' =:= '),
+	write(S, I),
+	write(S, '.'),
+	nl(S),
+	fail.
 writeInvs(S):-
-    nl(S).
+	nl(S).
 
 writeCls(S):-
-    my_clause(H, Body,_),
-    numbervars((H,Body), 0, _),
-    writeClauses(H,Body,S),
-    fail.
+	my_clause(H, Body,_),
+	numbervars((H,Body), 0, _),
+	writeClauses(H,Body,S),
+	fail.
 writeCls(_).
 
 writeClauses(H, B,S) :-
