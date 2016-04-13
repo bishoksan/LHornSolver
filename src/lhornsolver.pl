@@ -19,15 +19,15 @@ TODO: compute the number of non-linear clauses in the body once
 :- use_module(library(process), [process_call/3]).
 
 :- use_module(lineariseCHC).
-:- use_module(thresholds1, [main/1]).
+:- use_module(chclibs(thresholds1), [main/1]).
 :- use_module(counterExample, [main/1]).
-:- use_module(load_simple).
-:- use_module(cpascc).
+:- use_module(chclibs(load_simple)).
+:- use_module(chclibs(cpascc)).
 :- use_module(checkInv, [checkInv/2]).
 :- use_module(logen_map).
 
 % :- include(chclibs(get_options)).
-% :- use_module(common).
+% :- use_module(chclibs(common)).
 
 :- data constrained_fact/2. % constrained_fact(Atom, [Constraint])
 

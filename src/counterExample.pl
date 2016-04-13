@@ -5,13 +5,13 @@
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
 
-:- use_module(linearize).
+:- use_module(chclibs(linearize)).
 :- use_module(chclibs(ppl_ops)).
-:- use_module(input_ppl_clausenum).
+:- use_module(chclibs(input_ppl_clausenum)).
 :- use_module(chclibs(yices2_sat)).
 :- use_module(ciao_yices(ciao_yices_2)).
 
-:- use_module(common).
+:- use_module(chclibs(common)).
 
 main([F, TraceF,Result]) :-
 	unsafe(F,TraceF, Result).

@@ -7,19 +7,19 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :-dynamic(invariant/2).
 :-dynamic(dimension/1).
 
-:- use_module(linearize).
-:- use_module(input_ppl_clausenum).
-:- use_module(canonical).
+:- use_module(chclibs(linearize)).
+:- use_module(chclibs(input_ppl_clausenum)).
+:- use_module(chclibs(canonical)).
 
 :- use_module(chclibs(ppl_ops)).
-:- use_module(setops).
+:- use_module(chclibs(setops)).
 
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).
 :- use_module(library(strings)).
 
 :- include(chclibs(get_options)).
-:- use_module(common).
+:- use_module(chclibs(common)).
 
 %K is the index for which the invaraint is computed
 

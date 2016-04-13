@@ -13,11 +13,11 @@ The algorithm is presented in the paper: Solving non-linear Horn clauses using a
 :- use_module(library(terms), [atom_concat/2]).
 :- use_module(library(pathnames), [path_basename/2, path_concat/3, path_split/3]).
 
-:- use_module(load_simple).
+:- use_module(chclibs(load_simple)).
 :- use_module(kdim).
 :- use_module(chc2logen).
 :- use_module(plugin_solution, [main/1]).
-:- use_module(common).
+:- use_module(chclibs(common)).
 
 
 

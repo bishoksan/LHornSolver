@@ -8,14 +8,14 @@ which contains disjunctively  invariants  as assertions together with the initia
 :-dynamic(invariant/1).
 :-dynamic(disjInvariant/1).
 
-:- use_module(linearize).
-:- use_module(input_ppl_clausenum).
+:- use_module(chclibs(linearize)).
+:- use_module(chclibs(input_ppl_clausenum)).
 :- use_module(chclibs(yices2_sat)).
 :- use_module(ciao_yices(ciao_yices_2)).
-:- use_module(canonical).
+:- use_module(chclibs(canonical)).
 
 :- include(chclibs(get_options)).
-:- use_module(common).
+:- use_module(chclibs(common)).
 
 :- use_module(library(terms_vars)).
 :- use_module(library(lists)).

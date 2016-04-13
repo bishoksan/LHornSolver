@@ -8,11 +8,11 @@ based on linearSolveProg.pl interpreter
 :- use_module(library(lists)).
 :- use_module(library(dynamic)).
 :- use_module(library(read)).
-:- use_module(load_simple).
+:- use_module(chclibs(load_simple)).
 
 :- use_module(library(process), [process_call/3]).
 
-:- use_module(common).
+:- use_module(chclibs(common)).
 
 go:-
     recoverOriginalPred('../mc91.pl.lin', 1, '../mc91.pl.lin.rec.pl').
