@@ -62,7 +62,6 @@ find_bundle_cmd(Cmd, Path) :-
 
 % ---------------------------------------------------------------------------
 
-
 %recognised_option(_,_,_). %due to include common.pl
 
 linearise(P, S, Interpreter, Annotation, Dim, F_KDIM, F_KDIM_S, PLin):-
@@ -95,9 +94,30 @@ linearisePE(In, Interpreter, Annotation, StackSize, PLin):-
 	% logen
 	logen_executable(Logen),
     %logen only takes .ann files not the interpreter but the extension .ann is not needed to pass
+	logen_cleanup(Interpreter),
 	process_call(Logen, ['-np', Interpreter, LogenGoal], [stdout(file(PLin))]),
+	logen_cleanup(Interpreter),
 	process_call(path('rm'), [InLogen],[]).
 	%process_call(path('rm'), [OutAnn],[]).
+
+% Cleanup the *.gx* files produced by logen.
+%
+% NOTE: logen produces generates and compiles a Prolog module (.gx
+%   file) using Ciao. Ciao does not recompile the module if the
+%   timestamp has not changed. To be safe, it is better to cleanup the
+%   intermediate compilation output.
+
+% TODO: check again resolution of timestamps in Ciao (there may be a bug)
+
+logen_cleanup(F) :-
+	atom_concat(F, '.gx', F1),
+	atom_concat(F, '.gx.cpx', F2),
+	atom_concat(F, '.gx.itf', F3),
+	atom_concat(F, '.gx.po', F4),
+	process_call(path('rm'), ['-f', F1], []),
+	process_call(path('rm'), ['-f', F2], []),
+	process_call(path('rm'), ['-f', F3], []),
+	process_call(path('rm'), ['-f', F4], []).
 
 % formula: Size=(max. nr of body atoms in the program -1)* program_dimension + 1
 
