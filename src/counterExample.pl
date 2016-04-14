@@ -44,13 +44,11 @@ checkCounterExample(Cex,F, Result) :-
    %write('cex is '), write(Cex), nl,
 	load_file(F),
 	( getCeXConstraint([false],[],[Cex], Cs), checkYicesSat(Cs)
-
 	; getCeXConstraint([false_ans],[],[Cex], Cs), checkYicesSat(Cs)
 	),
 	!,
 	Result=unsafe.
 checkCounterExample(_,_, Result) :-
-	yices_exit,
 	Result=spurious.
 
 
@@ -66,13 +64,13 @@ getCeXConstraint([B|Bs],Cs,[T|Ts], Cs3) :-
 	getCeXConstraint(Bs3,Cs2,Ts2, Cs3).
 
 checkYicesSat(Formula):-
-    varset(Formula, Vs),
-    numbervars(Formula, 0, _),
-    makeYicesIntVars(Vs, VReals),
-    yices_init,
-    yices_sat(Formula,VReals),
-    yices_exit.
+	varset(Formula, Vs),
+	numbervars(Formula, 0, _),
+	makeYicesIntVars(Vs, VReals),
+	yices_init,
+	( yices_sat(Formula,VReals) -> Ok = yes
+	; Ok = no
+	),
+	yices_exit,
+	Ok = yes.
 
-
-
-	
