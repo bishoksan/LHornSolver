@@ -44,6 +44,7 @@ tuple2list((A,As),[A|LAs]) :-
 	tuple2list(As,LAs).
 tuple2list(A,[A]).
 
+% TODO: see separate_constraints/3 and constraint/1 in chclibs
 separate_constraints([],[],[]).
 separate_constraints([B|Bs],[B|Cs],Ds) :-
 	constraint(B),

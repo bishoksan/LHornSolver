@@ -2,7 +2,7 @@
 
 :- use_module(library(lists)).
 :- use_module(library(sort)).
-
+:- use_module(chclibs(common), [separate_constraints/3]).
 
 :- dynamic my_clause/3.
 :- dynamic lowerbound/1.
@@ -318,28 +318,6 @@ writeBodyAtoms(S,[(_,B1),B2|Bs]) :-
 dim_0_constraints([],[]).
 dim_0_constraints([C|Cs],[(0,C)|Cs2]) :-
 	dim_0_constraints(Cs,Cs2).
-
-%---
-
-separate_constraints([],[],[]).
-separate_constraints([B|Bs],[C|Cs],Ds) :-
-	constraint(B,C),
-	!,
-	separate_constraints(Bs,Cs,Ds).
-separate_constraints([B|Bs],Cs,[B|Ds]) :-
-	separate_constraints(Bs,Cs,Ds).
-
-constraint(X=Y, X=Y).
-constraint(X=:=Y, X=Y).
-constraint(X is Y, X = Y).
-constraint(X>Y, X>Y).
-constraint(X>=Y, X>=Y).
-constraint(X=<Y, X=<Y).
-constraint(X<Y, X<Y).
-constraint(_\==_,0=0).
-constraint(_=\=_,0=0).
-constraint(true,0=0).
-constraint(fail,1=0).
 
 % --- load clauses file ----
 
