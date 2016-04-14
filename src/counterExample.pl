@@ -7,7 +7,7 @@
 
 :- use_module(chclibs(linearize)).
 :- use_module(chclibs(ppl_ops)).
-:- use_module(chclibs(input_ppl_clausenum)).
+:- use_module(chclibs(program_loader)).
 :- use_module(chclibs(yices2_sat)).
 :- use_module(ciao_yices(ciao_yices_2)).
 

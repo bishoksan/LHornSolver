@@ -8,7 +8,7 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 :-dynamic(dimension/1).
 
 :- use_module(chclibs(linearize)).
-:- use_module(chclibs(input_ppl_clausenum)).
+:- use_module(chclibs(program_loader)).
 :- use_module(chclibs(canonical)).
 
 :- use_module(chclibs(ppl_ops)).
