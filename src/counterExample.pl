@@ -66,7 +66,7 @@ getCeXConstraint([B|Bs],Cs,[T|Ts], Cs3) :-
 checkYicesSat(Formula):-
 	varset(Formula, Vs),
 	numbervars(Formula, 0, _),
-	makeYicesIntVars(Vs, VReals),
+	yices_vars(Vs, int, VReals), % TODO: right type?
 	yices_init,
 	( yices_sat(Formula,VReals) -> Ok = yes
 	; Ok = no

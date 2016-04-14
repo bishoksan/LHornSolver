@@ -180,7 +180,7 @@ printSmtOutput(_, Safety):-
 	formulaCls(Cls, [false], Formula),
 	varset(Formula, Vs),
 	numbervars(Formula, 0, _),
-	makeYicesIntVars(Vs, VReals),
+	yices_vars(Vs, int, VReals), % TODO: right type?
 	%write('fromula n smt '), write(Formula), write(' '),nl,
 	%expr2yices(Formula, SmtFormula),
 	yices_init,
