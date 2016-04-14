@@ -123,8 +123,9 @@ cleanup :-
 all_k_dim_clauses([Id|Ids],K,Cls0,Cls2) :-
 	my_clause(H,B,Id),
 	separate_constraints(B,Cs,Bs),
+	dim_0_constraints(Cs,Cs2),
 	numbervars((H,B),0,_),
-	make_k_dim_clauses(Cs,Bs,H,K,Cls0,Cls1),
+	make_k_dim_clauses(Cs2,Bs,H,K,Cls0,Cls1),
 	all_k_dim_clauses(Ids,K,Cls1,Cls2).
 all_k_dim_clauses([],K,Cls0,Cls2) :-
 	allPreds(Ps),
@@ -281,14 +282,6 @@ dim_atomname(A,'[]',K,(K,A1)) :-
 	atom_concat(P,Suff,P1),
 	A1 =.. [P1|Xs].
 	
-separate_constraints([],[],[]).
-separate_constraints([B|Bs],[(0,C)|Cs],Ds) :-
-	constraint(B,C),
-	!,
-	separate_constraints(Bs,Cs,Ds).
-separate_constraints([B|Bs],Cs,[B|Ds]) :-
-	separate_constraints(Bs,Cs,Ds).
-
 clauseIds(Ids) :-
 	findall(C,my_clause(_,_,C),Ids).
 
@@ -321,6 +314,20 @@ writeBodyAtoms(S,[(_,B1),B2|Bs]) :-
 	writeBodyAtoms(S,[B2|Bs]).
 
 %---
+
+dim_0_constraints([],[]).
+dim_0_constraints([C|Cs],[(0,C)|Cs2]) :-
+	dim_0_constraints(Cs,Cs2).
+
+%---
+
+separate_constraints([],[],[]).
+separate_constraints([B|Bs],[C|Cs],Ds) :-
+	constraint(B,C),
+	!,
+	separate_constraints(Bs,Cs,Ds).
+separate_constraints([B|Bs],Cs,[B|Ds]) :-
+	separate_constraints(Bs,Cs,Ds).
 
 constraint(X=Y, X=Y).
 constraint(X=:=Y, X=Y).
