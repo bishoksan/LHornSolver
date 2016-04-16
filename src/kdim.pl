@@ -1,10 +1,13 @@
-:- module(kdim,[script/0,main/1,go/2,go1/3,go2/2,go3/3]).
+:- module(kdim,[main/1],[]).
 
 :- use_module(library(lists)).
-:- use_module(library(sort)).
 :- use_module(chclibs(common), [separate_constraints/3]).
+:- use_module(library(sort)).
+:- use_module(library(write)).
+:- use_module(library(aggregates)).
+:- use_module(library(dynamic)).
+:- use_module(chclibs(load_simple)).
 
-:- dynamic my_clause/3.
 :- dynamic lowerbound/1.
 
 % (c) B. Kafle, J.P. Gallagher, P. Ganty
@@ -31,35 +34,35 @@
 % Output (with -lb option): 
 % A set of Horn clauses generating the at-least-k+1-dimensional derivations of the input clauses
 
-% Usage 
-% go('Tests/mc91.pl',2). 				(write to standard output)
-% go1('Tests/mc91.pl',2,'outfile.txt'). (write to named output file)
-% go2('Tests/mc91.pl',2). 				(use size argument as lower bound and write to standard output)
-% go3('Tests/mc91.pl',2 'output.txt'). 	(use size argument as lower bound and use named output file)
+% % Usage 
+% % go('Tests/mc91.pl',2). 				(write to standard output)
+% % go1('Tests/mc91.pl',2,'outfile.txt'). (write to named output file)
+% % go2('Tests/mc91.pl',2). 				(use size argument as lower bound and write to standard output)
+% % go3('Tests/mc91.pl',2 'output.txt'). 	(use size argument as lower bound and use named output file)
+% 
+% :- export([script/0,go/2,go1/3,go2/2,go3/3]).
+% script :-
+% 	current_prolog_flag(argv,Args),
+% 	get_arguments(Args,F,K,OutFile),
+% 	go1(F,K,OutFile).
+% 
+% get_arguments(Args,F,K,OutFile):-
+% 	Args = [F,K,OutFile].
+% 
+% go(F,K) :-
+% 	main(['-prg',F,'-k',K]).
+% go1(F,K,OutFile) :-
+% 	main(['-prg',F,'-k',K,'-o',OutFile]).
+% go2(F,K) :-
+% 	main(['-prg',F,'-k',K,'-lb']).
+% go3(F,K,OutFile) :-
+% 	main(['-prg',F,'-k',K,'-lb','-o',OutFile]).
 
-% tested in Ciao Prolog and SWI Prolog
-script :-
-	current_prolog_flag(argv,Args),
-	get_arguments(Args,F,K,OutFile),
-	go1(F,K,OutFile).
-
-get_arguments(Args,F,K,OutFile):-
-	Args = [F,K,OutFile].
-
-go(F,K) :-
-	main(['-prg',F,'-k',K]).
-go1(F,K,OutFile) :-
-	main(['-prg',F,'-k',K,'-o',OutFile]).
-go2(F,K) :-
-	main(['-prg',F,'-k',K,'-lb']).
-go3(F,K,OutFile) :-
-	main(['-prg',F,'-k',K,'-lb','-o',OutFile]).
-
-% command line usage (if compiled with Ciao Prolog's ciaoc command)
-% kdim -prg Tests/mc91.pl -k 2 						(write to standard output)
-% kdim -prg Tests/mc91.pl -k 2 -o outfile.txt 		(write to named output file)
-% kdim -prg Tests/mc91.pl -k 2 -lb 					(use size argument as lower bound and write to standard output)
-% kdim -prg Tests/mc91.pl -k 2 -lb -o outfile.txt 	(use size argument as lower bound and use named output file)
+% Command line usage:
+%   kdim -prg Tests/mc91.pl -k 2   		  (write to standard output)
+%   kdim -prg Tests/mc91.pl -k 2 -o outfile.txt   (write to named output file)
+%   kdim -prg Tests/mc91.pl -k 2 -lb   		  (use size argument as lower bound and write to standard output)
+%   kdim -prg Tests/mc91.pl -k 2 -lb -o outfile.txt  (use size argument as lower bound and use named output file)
 
 main(ArgV) :-
 	cleanup,
@@ -319,43 +322,3 @@ dim_0_constraints([],[]).
 dim_0_constraints([C|Cs],[(0,C)|Cs2]) :-
 	dim_0_constraints(Cs,Cs2).
 
-% --- load clauses file ----
-
-load_file(F) :-
-    retractall(my_clause(_,_,_)),
-	open(F,read,S),
-	remember_all(S,1),
-	close(S).
-
-remember_all(S,K) :-
-	read(S,C),
-	(
-	    C == end_of_file -> true
-	;
-	    remember_clause(C,K),
-	    K1 is K+1,
-	    remember_all(S,K1)
-	).
-
-remember_clause((A :- B),K) :-
-	!,
-	tuple2list(B,BL),
-	makeClauseId(K,CK),
-	assert(my_clause(A,BL,CK)).
-
-remember_clause(A,K) :-
-	makeClauseId(K,CK),
-	assert(my_clause(A,[],CK)),
-	!.
-remember_clause((:- _),_).
-
-makeClauseId(K,CK) :-
-	name(K,NK),
-	name(c,C),
-	append(C,NK,CNK),
-	name(CK,CNK).
-
-tuple2list((A,As),[A|LAs]) :-
-	!,
-	tuple2list(As,LAs).
-tuple2list(A,[A]).

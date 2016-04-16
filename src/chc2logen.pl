@@ -1,6 +1,9 @@
-:- module(chc2logen,[main/1]).
+:- module(chc2logen,[main/1],[]).
 
+:- use_module(library(read)).
 :- use_module(library(lists)).
+:- use_module(library(write), [numbervars/3,writeq/2,write/2]).
+:- use_module(chclibs(common), [conj2List/2]).
 
 main([InF,OutF]) :-
 	open(InF,read,S1),
@@ -26,7 +29,7 @@ translateFile(S1,S2) :-
 
 writeHornClause((A :- B),S) :-
 	!,
-	tuple2list(B,BL),
+	conj2List(B,BL),
 	separate_constraints(BL,Cs,Bs),
 	writeq(S,logen(hornClause/2,hornClause(A,Cs,Bs))),
 	write(S,'.'),
@@ -38,11 +41,6 @@ writeHornClause(A,S) :-
 	nl(S),
 	!.
 writeHornClause((:- _),_).
-
-tuple2list((A,As),[A|LAs]) :-
-	!,
-	tuple2list(As,LAs).
-tuple2list(A,[A]).
 
 % TODO: see separate_constraints/3 and constraint/1 in chclibs
 separate_constraints([],[],[]).
