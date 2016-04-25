@@ -3,7 +3,7 @@
 :- use_module(library(read)).
 :- use_module(library(lists)).
 :- use_module(library(write), [numbervars/3,writeq/2,write/2]).
-:- use_module(chclibs(common), [conj2List/2]).
+:- use_module(chclibs(common), [conj2List/2, constraint/2]).
 
 main([InF,OutF]) :-
 	open(InF,read,S1),
@@ -45,20 +45,9 @@ writeHornClause((:- _),_).
 % TODO: see separate_constraints/3 and constraint/1 in chclibs
 separate_constraints([],[],[]).
 separate_constraints([B|Bs],[B|Cs],Ds) :-
-	constraint(B),
+	constraint(B, _),
 	!,
 	separate_constraints(Bs,Cs,Ds).
 separate_constraints([B|Bs],Cs,[B|Ds]) :-
 	separate_constraints(Bs,Cs,Ds).
 	
-constraint(_ = _).
-constraint(_ < _).
-constraint(_ > _).
-constraint(_ =< _).
-constraint(_ >= _).
-constraint(_ is _).
-constraint(_ =:= _).
-constraint(_\==_).
-constraint(_=\=_).
-constraint(true).
-constraint(fail).
