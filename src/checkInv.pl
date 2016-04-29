@@ -20,6 +20,7 @@
 
 :- dynamic(invariant/1).
 :- dynamic(disjInvariant/1).
+:- data flag/1. % TODO: use
 
 go2:-
     main(['-prg', '/Users/kafle/Desktop/mctest/mc91.pl', '-inv', '/Users/kafle/Desktop/mctest/mc91_1.pl.lin.cha.pl']), nl.

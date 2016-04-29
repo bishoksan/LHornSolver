@@ -4,9 +4,6 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 
 :-module(plugin_solution, _).
 
-:-dynamic(invariant/2).
-:-dynamic(dimension/1).
-
 :- use_module(chclibs(linearize)).
 :- use_module(chclibs(program_loader)).
 :- use_module(chclibs(canonical)).
@@ -20,6 +17,10 @@ Takes as input a set of Horn clauses K+1 dim program, invariants generated for a
 
 :- include(chclibs(get_options)).
 :- use_module(chclibs(common)).
+
+:- dynamic(invariant/2).
+:- dynamic(dimension/1).
+:- data flag/1.
 
 %K is the index for which the invaraint is computed
 
