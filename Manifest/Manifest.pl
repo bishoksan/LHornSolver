@@ -1,14 +1,17 @@
-% Manifest file for LHornSolver
-bundle_name('LHornSolver').
-bundle_packname('LHornSolver').
-bundle_requires([
+:- bundle('LHornSolver').
+version('1.0').
+depends([
     core,
     chclibs,
     ciao_yices,
     logen
 ]).
-bundle_alias_paths([
+alias_paths([
     lhornsolver = 'src'
 ]).
+%
+cmd('src/lhornsolver').
+%
+lib('src').
 
 

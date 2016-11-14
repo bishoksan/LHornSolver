@@ -195,11 +195,11 @@ verifyCPA(Prog, F_INV, F_WidenPoints, F_Traceterm, F_Threshold,Result) :-
 
 % ---------------------------------------------------------------------------
 
-:- use_module(library(bundle/paths_extra), [fsR/2]).
+:- use_module(library(bundle/bundle_paths), [bundle_path/3]).
 
 initialise(ResultDir, F, Dim, F_INV, Interpreter, Annotation, F_WidenPoints, F_Threshold, F_CEX, F_LIN, F_KDIM, F_KDIM_S,F_LOGEN_MAP):-
     Dim=0,
-    fsR(bundle_src('LHornSolver')/src, SrcDir),
+    bundle_path('LHornSolver', 'src', SrcDir),
     path_concat(ResultDir, 'linearSolveProg_k_perm.pl', Interpreter),
     path_concat(SrcDir, 'linearSolve_k_perm.pl.ann', Annotation),
     inv_file(ResultDir, F, F_INV),
