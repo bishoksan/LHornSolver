@@ -3,8 +3,8 @@ version('1.0').
 depends([
     core,
     chclibs,
-    ciao_yices,
-    logen
+    'github.com/jfmc/ciao_yices',
+    'github.com/jfmc/logen'
 ]).
 alias_paths([
     lhornsolver = 'src'
