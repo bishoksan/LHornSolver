@@ -12,16 +12,8 @@ dimension bounded program generator, Horn clause linearisers etc.
 
 ## Requirements
 
-1. [Ciao](https://github.com/ciao-lang/ciao) 1.16 or newer
-   (installed from git repository with `./ciao-boot.sh local-install`)
-2. [Ciao bindings](https://github.com/ciao-lang/ciao_ppl) for
-   [Parma Polyhedra Library](https://bugseng.com/products/ppl/)
-   (`ciao get ciao_ppl --ciao_ppl:enabled=yes --ciao_ppl:auto_install=yes`)
-3. [Ciao bindings](https://github.com/jfmc/ciao_yices) for
-   [Yices SMT solver](https://yices.csl.sri.com/) (`ciao get
-   github.com/jfmc/ciao_yices`)
-4. Partial evaluator [Logen](https://github.com/leuschel/logen)
-   (install the Ciao port with `ciao get github.com/jfmc/logen`).
+[Ciao](https://github.com/ciao-lang/ciao) 1.16 or newer (installed
+from git repository with `./ciao-boot.sh local-install`)
 
 ## Build and installation
 
@@ -31,15 +23,27 @@ You can automatically fetch, build, and install LHornSolver using:
 ciao get github.com/bishoksan/LHornSolver
 ```
 
+The following dependendencies (including third-party code) will be
+installed automatically:
+
+1. [Ciao bindings](https://github.com/ciao-lang/ciao_ppl) for
+   [Parma Polyhedra Library](https://bugseng.com/products/ppl/)
+   (`ciao get ciao_ppl`)
+2. [Ciao bindings](https://github.com/jfmc/ciao_yices) for
+   [Yices SMT solver](https://yices.csl.sri.com/) (`ciao get
+   github.com/jfmc/ciao_yices`)
+3. Partial evaluator [Logen](https://github.com/leuschel/logen)
+   (install the Ciao port with `ciao get github.com/jfmc/logen`).
+
 All code will be downloaded and built under the first directory
 specified in the `CIAOPATH` environment variable or `~/.ciao` by
 default.
 
-**For developing** LHornSolver it is recommended to define your own
+**For developing** it is recommended to define your own
 _workspace directory_ and clone this repository. E.g., `export
 CIAOPATH=~/ciao` and update your `PATH` with `eval "$(ciao-env)"`.
 The dependencies can be cloned manually or fetched automatically by
-calling `ciao fetch` at the LHornSolver source directory.
+calling `ciao fetch` at the source directory.
 
 ## Usage
 
