@@ -1,0 +1,6 @@
+% Program provided by Elena Gutierrez
+eq(X,Y) :- X=Y.
+eq2(X,Y,Z) :- eq(X,Y), eq(Y,Z).
+eq4(X,Y,Z,U,V) :- eq2(X,Y,Z), eq2(Z,U,W), W=V+1 .
+
+false :- eq4(X,Y,Z,U,V), Y>V.

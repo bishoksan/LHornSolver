@@ -1,0 +1,27 @@
+% Program provided by Andrey Rybalchenko
+h1(A,A) :- 1=1.
+h2(A,B) :- B=4, h1(A,C).
+h3(A,B) :- h2(A,B).
+h4(A,B) :- B=<3, h3(A,B).
+false :- h4(A,B).
+h5(A,B) :- B>=4, h3(A,B).
+h6(A,A) :- A=B, h5(C,B).
+h8(A,B) :- C=B, D=E, h5(A,D), h7(E,C).
+h10(A,B) :- h8(A,B).
+h11(A,B) :- B=<2, h10(A,B).
+false :- h11(A,B).
+h12(A,B) :- B>=4, h10(A,B).
+false :- h12(A,B).
+h13(A,B) :- B=3, h10(A,B).
+h14(A,B) :- B=2, h13(A,C).
+h15(A,B) :- h14(A,B).
+h16(A,B) :- B=<1, h15(A,B).
+false :- h16(A,B).
+h17(A,B) :- B>=3, h15(A,B).
+false :- h17(A,B).
+h18(A,B) :- B=2, h15(A,B).
+h19(A,B) :- h18(A,B).
+h20(A,B) :- h19(A,B).
+h21(A,B) :- B=3, h6(A,C).
+h22(A,B) :- h21(A,B).
+h7(A,B) :- h22(A,B).

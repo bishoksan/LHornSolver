@@ -1,0 +1,29 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,A,B) :- 1=1.
+h2(A,B,C,D) :- C=0, D=0, h1(A,B,E,F).
+h3(A,B,A,B) :- B=C,A=D, h2(E,F,D,C).
+h5(A,B,C,D) :- E=F, G=H, I=C, J=D, h2(A,B,E,G), h4(F,H,I,J).
+h7(A,B,C,D) :- h5(A,B,C,D).
+h8(A,B,C,D) :- C=<101, h7(A,B,C,D).
+false :- h8(A,B,C,D).
+h9(A,B,C,D) :- C>=103, h7(A,B,C,D).
+false :- h9(A,B,C,D).
+h10(A,B,C,D) :- C=102, h7(A,B,C,D).
+h11(A,B,C,D) :- h10(A,B,C,D).
+h12(A,B,C,D) :- h11(A,B,C,D).
+h13(A,B,C,D) :- h3(A,B,C,D).
+h14(A,B,C,D) :- C=<50, h13(A,B,C,D).
+h15(A,B,C,D) :- E= -1+D, h14(A,B,C,E).
+h16(A,B,C,D) :- C>=51, h13(A,B,C,D).
+h17(A,B,C,D) :- E=1+D, h16(A,B,C,E).
+h18(A,B,C,D) :- h15(A,B,C,D).
+h18(A,B,C,D) :- h17(A,B,C,D).
+h19(A,B,C,D) :- D=< -1, h18(A,B,C,D).
+h20(A,B,C,D) :- h19(A,B,C,D).
+h21(A,B,C,D) :- D>=0, h18(A,B,C,D).
+h22(A,B,C,D) :- E= -1+C, h21(A,B,E,D).
+h23(A,B,C,D) :- h20(A,B,C,D).
+h3(A,B,A,B) :- B=C,A=D, h22(E,F,D,C).
+h24(A,B,C,D) :- E=F, G=H, I=C, J=D, h22(A,B,E,G), h4(F,H,I,J).
+h23(A,B,C,D) :- h24(A,B,C,D).
+h4(A,B,C,D) :- h23(A,B,C,D).

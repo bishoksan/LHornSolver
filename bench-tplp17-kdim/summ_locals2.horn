@@ -1,0 +1,14 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,C,D,A,B,C,D) :- 1=1.
+h2(A,B,C,D,E,F,G,H) :- E=2, F=1, G=3, h1(A,B,C,D,I,J,K,H).
+h3(A,B,A,B) :- A=C, h2(D,E,F,G,H,I,C,J).
+h5(A,B,C,D,E,F,G,H) :- I=H, G=J, h2(A,B,C,D,E,F,G,K), h4(J,L,M,I).
+h7(A,B,C,D,E,F,G,H) :- h5(A,B,C,D,E,F,G,H).
+h8(A,B,C,D,E,F,G,H) :- h7(A,B,C,D,E,F,G,H).
+h9(A,B,C,D) :- h3(A,B,C,D).
+h10(A,B,C,D) :- C>=6, h9(A,B,C,D).
+false :- h10(A,B,C,D).
+h11(A,B,C,D) :- C=<5, h9(A,B,C,D).
+h12(A,B,C,D) :- D=5, h11(A,B,C,E).
+h13(A,B,C,D) :- h12(A,B,C,D).
+h4(A,B,C,D) :- h13(A,B,C,D).

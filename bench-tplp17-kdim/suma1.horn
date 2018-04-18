@@ -1,0 +1,9 @@
+% Program provided by Elena Gutierrez
+sum(A,0,C) :- A=C.
+sum(A,B,C) :- D =B-1, E =C-1, sum(A,D,E).
+
+% Error:
+sum3(A,B,C,D) :- sum(A,B,E),sum(E,C,F), F+1=D.
+
+false :- sum3(A,B,C,D), D>C+B+A.
+false :- sum3(A,B,C,D), D<C+B+A.

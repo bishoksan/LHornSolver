@@ -1,0 +1,57 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,A,B) :- 1=1.
+h2(A,B,C,D) :- D=5, h1(A,B,C,E).
+h3(A,B,C,D,E,F,G,H,A,B,C,D,E,F,G,H) :- E=I,D=0,C=3,B=I,A=J, h2(K,L,M,I).
+h5(A,B,C,D) :- E=3, F=0, G=H, D=H, h2(A,B,C,D), h4(I,G,E,F,H,J,K,L,M,N,O,P,Q,R,S,T).
+h7(A,B,C,D) :- h5(A,B,C,D).
+h8(A,B,C,D) :- h7(A,B,C,D).
+h9(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h3(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h10(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h9(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h11(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h10(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h12(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h11(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h13(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- L-M>=1, h12(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h14(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- P= -1, h13(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Q).
+h15(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- L-M=<0, h12(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h16(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- L= -(M)+2*N, h15(A,B,C,D,E,F,G,H,I,J,K,L,M,Q,O,P).
+h17(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h14(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h18(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h17(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h19(A,B,C,D,A,B,C,D) :- C=E,B=F,A=G, h16(H,I,J,K,L,M,N,O,G,F,P,Q,R,E,S,T).
+h21(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- I=Q, J=R, N=S, T=O, h16(A,B,C,D,E,F,G,H,I,J,K,L,M,N,U,P), h20(Q,R,S,V,W,X,Y,T).
+h23(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h21(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h24(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K=O, h23(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h25(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- N=P, h24(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Q).
+h26(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O>=1, h23(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h27(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h26(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h28(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O=< -1, h23(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h27(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h28(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h29(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h25(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h18(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h29(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h30(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O=< -1, h27(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h31(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- N=1+M, h30(A,B,C,D,E,F,G,H,I,J,K,L,Q,N,O,P).
+h32(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O>=0, h27(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h33(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- N= -1+L, h32(A,B,C,D,E,F,G,H,I,J,K,Q,M,N,O,P).
+h34(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h31(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h34(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h33(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h35(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O>=1, h34(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h11(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h35(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h36(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O=<0, h34(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h37(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h36(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h38(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O=< -1, h37(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h11(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h38(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h39(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- K-O>=0, h37(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h40(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h39(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h41(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h40(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h42(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- P=0, h41(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,Q).
+h18(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h42(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h4(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P) :- h18(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P).
+h43(A,B,C,D,E,F,G,H) :- h19(A,B,C,D,E,F,G,H).
+h44(A,B,C,D,E,F,G,H) :- G=< -1, h43(A,B,C,D,E,F,G,H).
+false :- h44(A,B,C,D,E,F,G,H).
+h45(A,B,C,D,E,F,G,H) :- G>=0, h43(A,B,C,D,E,F,G,H).
+h46(A,B,C,D,E,F,G,H) :- h45(A,B,C,D,E,F,G,H).
+h47(A,B,C,D,E,F,G,H) :- F-G=<0, h46(A,B,C,D,E,F,G,H).
+false :- h47(A,B,C,D,E,F,G,H).
+h48(A,B,C,D,E,F,G,H) :- F-G>=1, h46(A,B,C,D,E,F,G,H).
+h49(A,B,C,D,E,F,G,H) :- h48(A,B,C,D,E,F,G,I).
+h50(A,B,C,D,E,F,G,H) :- h49(A,B,C,D,E,F,G,H).
+h20(A,B,C,D,E,F,G,H) :- h50(A,B,C,D,E,F,G,H).

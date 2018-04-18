@@ -1,0 +1,23 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,C,A,B,C) :- 1=1.
+h2(A,B,C,D,E,F) :- h1(A,B,C,D,E,F).
+h3(A,B,C,D,E,F) :- D>=1, h2(A,B,C,D,E,F).
+h4(A,B,A,B) :- A=3, h3(C,D,E,F,G,H).
+h6(A,B,C,D,E,F) :- G=3, H=E, h3(A,B,C,D,I,F), h5(G,J,K,H).
+h7(A,B,C,D,E,F) :- D=<0, h2(A,B,C,D,E,F).
+h4(A,B,A,B) :- A=42, h7(C,D,E,F,G,H).
+h8(A,B,C,D,E,F) :- G=42, H=F, h7(A,B,C,D,E,I), h5(G,J,K,H).
+h10(A,B,C,D,E,F) :- h6(A,B,C,D,E,F).
+h11(A,B,C,D,E,F) :- E=<3, h10(A,B,C,D,E,F).
+false :- h11(A,B,C,D,E,F).
+h12(A,B,C,D,E,F) :- E>=4, h10(A,B,C,D,E,F).
+h13(A,B,C,D,E,F) :- h12(A,B,C,D,E,F).
+h15(A,B,C,D,E,F) :- h8(A,B,C,D,E,F).
+h16(A,B,C,D,E,F) :- F=<42, h15(A,B,C,D,E,F).
+false :- h16(A,B,C,D,E,F).
+h17(A,B,C,D,E,F) :- F>=43, h15(A,B,C,D,E,F).
+h13(A,B,C,D,E,F) :- h17(A,B,C,D,E,F).
+h18(A,B,C,D,E,F) :- h13(A,B,C,D,E,F).
+h19(A,B,C,D) :- C= -1+D, h4(A,B,C,E).
+h20(A,B,C,D) :- h19(A,B,C,D).
+h5(A,B,C,D) :- h20(A,B,C,D).

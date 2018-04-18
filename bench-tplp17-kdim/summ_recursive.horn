@@ -1,0 +1,28 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,A,B) :- 1=1.
+h2(A,B,C,D) :- D=5, h1(A,B,C,E).
+h3(A,B,C,D,A,B,C,D) :- D=E,C=0,B=E,A=F, h2(G,H,I,E).
+h5(A,B,C,D) :- E=0, F=G, D=G, h2(A,B,C,D), h4(H,F,E,G,I,J,K,L).
+h7(A,B,C,D) :- h5(A,B,C,D).
+h8(A,B,C,D) :- h7(A,B,C,D).
+h9(A,B,C,D,E,F,G,H) :- h3(A,B,C,D,E,F,G,H).
+h10(A,B,C,D,E,F,G,H) :- G-H>=0, h9(A,B,C,D,E,F,G,H).
+h11(A,B,C,D,E,F,G,H) :- h10(A,B,C,D,E,F,G,H).
+h12(A,B,C,D,E,F,G,H) :- G-H=< -1, h9(A,B,C,D,E,F,G,H).
+h13(A,B,C,D,A,B,C,D) :- D=C,C=E,B=F,A=G, h12(H,I,J,K,G,F,E,L).
+h15(A,B,C,D,E,F,G,H) :- E=I, F=J, G=K, L=K, h12(A,B,C,D,E,F,G,H), h14(I,J,L,K,M,N,O,P).
+h16(A,B,C,D,E,F,G,H) :- h11(A,B,C,D,E,F,G,H).
+h3(A,B,C,D,A,B,C,D) :- D=E,C=F+1,B=G,A=H, h15(I,J,K,L,H,G,F,E).
+h18(A,B,C,D,E,F,G,H) :- E=I, F=J, G= -1+K, H=L, h15(A,B,C,D,E,F,G,H), h4(I,J,K,L,M,N,O,P).
+h16(A,B,C,D,E,F,G,H) :- h18(A,B,C,D,E,F,G,H).
+h4(A,B,C,D,E,F,G,H) :- h16(A,B,C,D,E,F,G,H).
+h20(A,B,C,D,E,F,G,H) :- h13(A,B,C,D,E,F,G,H).
+h21(A,B,C,D,E,F,G,H) :- G=< -1, h20(A,B,C,D,E,F,G,H).
+false :- h21(A,B,C,D,E,F,G,H).
+h22(A,B,C,D,E,F,G,H) :- G>=0, h20(A,B,C,D,E,F,G,H).
+h23(A,B,C,D,E,F,G,H) :- h22(A,B,C,D,E,F,G,H).
+h24(A,B,C,D,E,F,G,H) :- F-G=<0, h23(A,B,C,D,E,F,G,H).
+false :- h24(A,B,C,D,E,F,G,H).
+h25(A,B,C,D,E,F,G,H) :- F-G>=1, h23(A,B,C,D,E,F,G,H).
+h26(A,B,C,D,E,F,G,H) :- h25(A,B,C,D,E,F,G,H).
+h14(A,B,C,D,E,F,G,H) :- h26(A,B,C,D,E,F,G,H).

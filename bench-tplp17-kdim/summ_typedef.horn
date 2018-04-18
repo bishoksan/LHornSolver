@@ -1,0 +1,34 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,C,D,A,B,C,D) :- 1=1.
+h2(A,B,C,D,E,F,G,H) :- F=0, G=1, h1(A,B,C,D,I,J,K,L).
+h3(A,B,C,D,E,F,G,H) :- h2(A,B,C,D,E,F,G,H).
+h4(A,B,C,D,E,F,G,H) :- F=< -1, h3(A,B,C,D,E,F,G,H).
+false :- h4(A,B,C,D,E,F,G,H).
+h5(A,B,C,D,E,F,G,H) :- F>=1, h3(A,B,C,D,E,F,G,H).
+false :- h5(A,B,C,D,E,F,G,H).
+h6(A,B,C,D,E,F,G,H) :- F=0, h3(A,B,C,D,E,F,G,H).
+h7(A,B,C,A,B,C) :- C=D,B=E,A=F, h6(G,H,I,J,F,E,D,K).
+h9(A,B,C,D,E,F,G,H) :- I=J, K=L, M=N, E=H, O=H, P=F, Q=G, h6(A,B,C,D,I,K,M,R), h8(J,L,N,O,P,Q).
+h11(A,B,C,D,E,F,G,H) :- h9(A,B,C,D,E,F,G,H).
+h12(A,B,C,D,E,F,G,H) :- H=<57004, h11(A,B,C,D,E,F,G,H).
+false :- h12(A,B,C,D,E,F,G,H).
+h13(A,B,C,D,E,F,G,H) :- H>=57006, h11(A,B,C,D,E,F,G,H).
+false :- h13(A,B,C,D,E,F,G,H).
+h14(A,B,C,D,E,F,G,H) :- H=57005, h11(A,B,C,D,E,F,G,H).
+h15(A,B,C,D,E,F,G,H) :- h14(A,B,C,D,E,F,G,H).
+h16(A,B,C,D,E,F,G,H) :- F=0, h15(A,B,C,D,E,F,G,H).
+false :- h16(A,B,C,D,E,F,G,H).
+h17(A,B,C,D,E,F,G,H) :- F=< -1, h15(A,B,C,D,E,F,G,H).
+h18(A,B,C,D,E,F,G,H) :- h17(A,B,C,D,E,F,G,H).
+h19(A,B,C,D,E,F,G,H) :- F>=1, h15(A,B,C,D,E,F,G,H).
+h18(A,B,C,D,E,F,G,H) :- h19(A,B,C,D,E,F,G,H).
+h20(A,B,C,D,E,F,G,H) :- G=<2, h18(A,B,C,D,E,F,G,H).
+false :- h20(A,B,C,D,E,F,G,H).
+h21(A,B,C,D,E,F,G,H) :- G>=4, h18(A,B,C,D,E,F,G,H).
+false :- h21(A,B,C,D,E,F,G,H).
+h22(A,B,C,D,E,F,G,H) :- G=3, h18(A,B,C,D,E,F,G,H).
+h23(A,B,C,D,E,F,G,H) :- h22(A,B,C,D,E,F,G,H).
+h24(A,B,C,D,E,F,G,H) :- h23(A,B,C,D,E,F,G,H).
+h25(A,B,C,D,E,F) :- D=57005, E=66, F=3, h7(A,B,C,G,H,I).
+h26(A,B,C,D,E,F) :- h25(A,B,C,D,E,F).
+h8(A,B,C,D,E,F) :- h26(A,B,C,D,E,F).

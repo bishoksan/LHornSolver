@@ -1,0 +1,20 @@
+% Program provided by Andrey Rybalchenko
+h1(A,B,A,B) :- 1=1.
+h2(A,B,C,D) :- C= -50, h1(A,B,E,D).
+h3(A,B,A,B) :- B=C,A=D, h2(E,F,D,C).
+h5(A,B,C,D) :- E=F, G=H, I=C, J=D, h2(A,B,E,G), h4(F,H,I,J).
+h7(A,B,C,D) :- h5(A,B,C,D).
+h8(A,B,C,D) :- D=<0, h7(A,B,C,D).
+false :- h8(A,B,C,D).
+h9(A,B,C,D) :- D>=1, h7(A,B,C,D).
+h10(A,B,C,D) :- h9(A,B,C,D).
+h11(A,B,C,D) :- h10(A,B,C,D).
+h12(A,B,C,D) :- h3(A,B,C,D).
+h13(A,B,C,D) :- C=< -1, h12(A,B,C,D).
+h14(A,B,C,D) :- E=1+C-D, F= -1+D, h13(A,B,E,F).
+h15(A,B,C,D) :- C>=0, h12(A,B,C,D).
+h16(A,B,C,D) :- h15(A,B,C,D).
+h3(A,B,A,B) :- B=C,A=D, h14(E,F,D,C).
+h17(A,B,C,D) :- E=F, G=H, I=C, J=D, h14(A,B,E,G), h4(F,H,I,J).
+h16(A,B,C,D) :- h17(A,B,C,D).
+h4(A,B,C,D) :- h16(A,B,C,D).
