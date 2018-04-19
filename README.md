@@ -65,7 +65,7 @@ directory, together with the collection of shared libraries for the
 dependencies. **Note**: you may need to include a standalone copy of
 `logen` binary and related files.
 
-## Programs for TPLP paper "Tree dimension in verification of constrained Horn clauses"
+## Programs and benchmarks for TPLP paper "Tree dimension in verification of constrained Horn clauses"
 
 The programs are in directory TPLP-Alg1 and are run using a shell script.  There
 is a short file README.txt in that directory giving instructions for use.  The benchmarks
