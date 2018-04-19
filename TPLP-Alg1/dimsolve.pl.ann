@@ -1,0 +1,47 @@
+logen(go/0,go) :-
+        logen(unfold,getAtom(A)),
+        logen(memo,solveAtom(A,_,_)).
+logen(solveAtom/2,solveAtom(A,B,Id)) :-
+        logen(unfold,hornClause(A,C,D,Id)),
+        logen(unfold,solveConstraints(C)),
+        logen(unfold,solveConjunction(D,E)),
+        logen(unfold,dimension(E,B)).
+logen(solveConjunction/2,solveConjunction([],[])).
+logen(solveConjunction/2,solveConjunction([A|B],[C|D])) :-
+        logen(memo,solveAtom(A,C,_)),
+        logen(unfold,solveConjunction(B,D)).
+logen(solveConstraints/1,solveConstraints([])).
+logen(solveConstraints/1,solveConstraints([A|B])) :-
+        logen(rescall,call(A)),
+        logen(unfold,solveConstraints(B)).
+logen(select/3,select(A,[A|B],B)).
+logen(select/3,select(A,[B|C],[B|D])) :-
+        logen(unfold,select(A,C,D)).
+logen(select2/4,select2(A,B,[A|D],C)) :-
+        logen(unfold,select(B,D,C)).
+logen(select2/4,select2(A,B,[C|D],[C|E])) :-
+        logen(unfold,select2(A,B,D,E)).
+logen(dimension/2,dimension([],0)).
+logen(dimension/2,dimension(A,B)) :-
+        logen(unfold,select(B,A,C)),
+        logen(rescall, B>=0),
+        logen(unfold,lesserDimension(C,B)).
+logen(dimension/2,dimension(A,B)) :-
+        logen(unfold,select2(C,C,A,D)),
+        logen(unfold,lesserDimension(D,B)),
+        logen(rescall,C>=0),
+        logen(rescall,C is B-1).
+logen(lesserDimension/2,lesserDimension([],_)).
+logen(lesserDimension/2,lesserDimension([B|C],A)) :-
+        logen(rescall,B+1 =< A),
+        logen(rescall,B >= 0),
+        logen(unfold,lesserDimension(C,A)).
+logen(getAtom/1,getAtom(A)) :-
+        logen(unfold,hornClause(B,_,_,_)),
+        logen(call,functor(B,C,D)),
+        logen(call,functor(A,C,D)).
+        
+:- filter
+        go.
+:- filter
+        solveAtom(nonvar,dynamic,dynamic).
