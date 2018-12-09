@@ -14,7 +14,7 @@ TODO: compute the number of non-linear clauses in the body once
 :- use_module(library(format), [format/2, format/3]).
 :- use_module(library(pathnames), [path_basename/2, path_concat/3]).
 :- use_module(library(terms), [atom_concat/2]).
-:- use_module(library(prolog_sys), [statistics/2]).
+:- use_module(engine(runtime_control), [statistics/2]).
 :- use_module(library(system_extra), [mktempdir_in_tmp/2, rmtempdir/1,mkpath/1]).
 :- use_module(library(process), [process_call/3]).
 

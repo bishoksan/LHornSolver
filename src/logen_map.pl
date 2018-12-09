@@ -6,7 +6,6 @@ based on linearSolveProg.pl interpreter
 :- dynamic pred_map/2.
 
 :- use_module(library(lists)).
-:- use_module(library(dynamic)).
 :- use_module(library(read)).
 :- use_module(chclibs(load_simple)).
 

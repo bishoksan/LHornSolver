@@ -1,8 +1,9 @@
 :- module(chc2logen,[main/1],[]).
 
+:- use_module(library(streams)).
 :- use_module(library(read)).
 :- use_module(library(lists)).
-:- use_module(library(write), [numbervars/3,writeq/2,write/2]).
+:- use_module(library(write)).
 :- use_module(chclibs(common), [conj2List/2, constraint/2]).
 
 main([InF,OutF]) :-

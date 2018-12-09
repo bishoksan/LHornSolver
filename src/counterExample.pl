@@ -1,5 +1,6 @@
 :- module(counterExample, [checkCounterExample/3, main/1], []).
 
+:- use_module(library(streams)).
 :- use_module(library(read)).
 :- use_module(library(write)).
 :- use_module(library(terms_vars)).
