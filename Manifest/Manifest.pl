@@ -3,7 +3,7 @@ version('1.0').
 depends([
     core-[version>='1.18'],
     chclibs,
-    'github.com/jfmc/ciao_yices',
+    'github.com/ciao-lang/ciao_yices',
     'github.com/jfmc/logen'
 ]).
 alias_paths([
